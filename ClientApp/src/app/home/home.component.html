@@ -1,0 +1,55 @@
+<h1>Bienvenido a Lab!</h1>
+
+<form class="form-inline">
+  <div class="form-group mb-2">
+    <label for="date" class="sr-only">Fecha</label>
+    <div class="container">
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+              [footerTemplate]="footerTemplate" #d="ngbDatepicker" [minDate]="today" placeholder="Seleccione Fecha" readonly>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"></button>
+            </div>
+            <ng-template #footerTemplate>
+              <hr class="my-0">
+              <button class="btn btn-primary btn-sm m-2 float-left" (click)="model = today; d.close()">Today</button>
+              <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Close</button>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="hours" class="sr-only">Seleccione Hora</label>
+    <select class="custom-select" name="hours" id="hours">
+      <option value="9">9:00</option>
+      <option value="10">10:00</option>
+      <option value="11">11:00</option>
+      <option value="12">12:00</option> 
+      <option value="13">13:00</option>
+      <option value="14">14:00</option>
+      <option value="15">15:00</option>
+      <option value="16">16:00</option>
+      <option value="17">17:00</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Confirmar</button>
+</form>
+
+
+<style>
+  .form-control{
+    background-color: #fff;
+  }
+button.calendar, button.calendar:active {
+    width: 2.75rem;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+    background-repeat: no-repeat;
+    background-size: 23px;
+    background-position: center;
+  }
+</style>
