@@ -29,6 +29,26 @@ namespace laberegisterLIH.Data
                 return null;
             }
         }
+        
+        public bool AddNewScheduleClientes(string userId, string examId, string date, string time, string sucursalId)
+        {
+            try
+            {
+                //get appuser
+                var user = _context.Clientes.Where(u => u.Id == userId).FirstOrDefault();
+                //update values
+                user.RegistrationPlace.Add(_context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault());
+                user.ExamsTaken.Add(_context.Examenes.Where(u => u.Id == Int32.Parse(examId)).FirstOrDefault());
+                //save 
+                _context.SaveChanges();
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to add new schedule {ex}");
+                return false;
+            }            
+        }
         public bool SaveAll()
         {
             try

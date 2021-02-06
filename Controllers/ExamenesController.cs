@@ -34,5 +34,12 @@ namespace laberegisterLIH.Controllers
             var results = _repository.GetAllExams();
             return results;
         }
+
+        [HttpPost]
+         public bool Set(string userId, string examId, string date, string time, string sucursalId)
+        {
+            var rng = new Random();
+            return _repository.AddNewScheduleClientes(userId, examId, date, time, sucursalId);
+        }
     }
 }

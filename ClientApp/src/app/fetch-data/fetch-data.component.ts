@@ -17,7 +17,4 @@ export class FetchDataComponent {
 
 interface Examen {
   name: string;
-  // temperatureC: number;
-  // temperatureF: number;
-  // summary: string;
 }

@@ -10,6 +10,7 @@ namespace laberegisterLIH.Data
     public interface ILabRepository
     {
         public IEnumerable<Examen> GetAllExams();
+        bool AddNewScheduleClientes(string userId, string examId, string date, string time, string sucursalId);
         bool SaveAll();
     }
 }
