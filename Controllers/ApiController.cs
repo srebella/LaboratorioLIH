@@ -15,37 +15,38 @@ namespace laberegisterLIH.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ExamenesController : ControllerBase
+    public class ApiController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-        private readonly ILogger<ExamenesController> _logger;
+        private readonly ILogger<ApiController> _logger;
         private readonly ILabRepository _repository;
-        public ExamenesController(ILogger<ExamenesController> logger, ILabRepository repository)
+        public ApiController(ILogger<ApiController> logger, ILabRepository repository)
         {
             _logger = logger;
             _repository = repository;
         }
 
         [HttpGet]
+        [Route("examenes")]
          public IEnumerable<Examen> Get()
         {
                  // Prepare Email Message  
-            var message = EmailMessageBuilder  
-                            .Init()  
-                            .AddSubject("subject")  
-                            .AddFrom("mail@mailinator.com")  
-                            .AddBody("body")  
-                            .AddTo("test987@mailinator.com")  
-                            .Build();  
+//             var message = EmailMessageBuilder  
+//                             .Init()  
+//                             .AddSubject("subject")  
+//                             .AddFrom("mail@mailinator.com")  
+//                             .AddBody("body")  
+//                             .AddTo("test987@mailinator.com")  
+//                             .Build();  
    
-            // Send Email Message  
-            AzureEmailSender sender =  
-new AzureEmailSender(new AzureEmailSettings("rAMVD750lDTlFP6"));  
-            var response = sender.SendAsync(message).Result;  
-            Console.WriteLine(response.StatusCode);
+//             // Send Email Message  
+//             AzureEmailSender sender =  
+// new AzureEmailSender(new AzureEmailSettings("rAMVD750lDTlFP6"));  
+//             var response = sender.SendAsync(message).Result;  
+//             Console.WriteLine(response.StatusCode);
 // try
 //       {
 //         MailMessage mailMsg = new MailMessage();
@@ -80,11 +81,29 @@ new AzureEmailSender(new AzureEmailSettings("rAMVD750lDTlFP6"));
             return results;
         }
 
+
+
         [HttpPost]
-         public bool Set(string userId, string examId, string date, string time, string sucursalId)
+        [Route("examanes/set")]
+        public bool Set([FromBody] CalendarModel data)
         {
-            var rng = new Random();
-            return _repository.AddNewScheduleClientes(userId, examId, date, time, sucursalId);
+            return _repository.AddNewScheduleClientes(data.UserId, data.ExamId, data.Date, data.Time, data.SucursalId);
+        }
+                
+        [HttpGet]
+        [Route("GetSucursales")]
+         public IEnumerable<Sucursal> GetSucursales()
+         {
+            var results = _repository.GetAllSucursales();
+            return results;
         }
     }
+}
+        public class CalendarModel
+        {
+            public string UserId { get; set; }
+            public string ExamId { get; set; }
+            public string Date { get; set; }
+            public string Time { get; set; }
+            public string SucursalId { get; set; }
 }

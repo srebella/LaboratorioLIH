@@ -1,18 +1,20 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Examenes</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p></p>
 
 <p *ngIf="!examenes"><em>Loading...</em></p>
 
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="examenes">
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Nombre</th>
+      <th>Tag</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let examen of examenes">
       <td>{{ examen.name }}</td>
+      <td>{{ examen.tags }}</td>
     </tr>
   </tbody>
 </table>

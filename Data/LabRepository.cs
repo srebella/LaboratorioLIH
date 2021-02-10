@@ -30,6 +30,19 @@ namespace laberegisterLIH.Data
             }
         }
         
+        public IEnumerable<Sucursal> GetAllSucursales()
+        {
+            try
+            {
+                return _context.Sucursales.OrderBy(e => e.Name).ToList();
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to get all exams {ex}");
+                return null;
+            }
+        }
+        
         public bool AddNewScheduleClientes(string userId, string examId, string date, string time, string sucursalId)
         {
             try

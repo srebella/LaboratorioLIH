@@ -9,7 +9,7 @@ export class FetchDataComponent {
   public examenes: Examen[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Examen[]>(baseUrl + 'examenes').subscribe(result => {
+    http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
     }, error => console.error(error));
   }
@@ -17,4 +17,5 @@ export class FetchDataComponent {
 
 interface Examen {
   name: string;
+  tags: string;
 }

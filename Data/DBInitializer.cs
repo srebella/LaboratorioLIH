@@ -24,8 +24,9 @@ public class DbInitializer : IDbInitializer {
         public void SeedData () {
             using (var serviceScope = _scopeFactory.CreateScope ()) {
                 using (var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext> ()) {
-
-                    context.Clientes.Add(new Cliente(){
+                    if ( !context.Clientes.Any())
+                    {
+                        context.Clientes.Add(new Cliente(){
                         Firstname ="Santiago",
                         Lastname = "Rebella",
                         UserName = "santi.rebella87@gmail.com",
@@ -36,6 +37,8 @@ public class DbInitializer : IDbInitializer {
                         PasswordHash = "",
 
                     });    
+                    }
+                    
                     //add exams
                     if (!context.Examenes.Any ()) {
                         var examenesList= new List<Examen>(){
@@ -224,167 +227,170 @@ public class DbInitializer : IDbInitializer {
                             context.Examenes.Add(examen);
                         }
                     }
-                    var sucursalesList= new List<Sucursal>(){
-                        new Sucursal(){
-                            Name="Bosque",
-                            Telephone="1234-5678",
-                            Address ="Cl. 134 #7b-83",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Centro Internacional",
-                            Telephone="1234-5678",
-                            Address ="Carrera 13-A No. 34-55 Cons. 101 - 102 Ext. 317",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Chia",
-                            Telephone="1234-5678",
-                            Address ="Av. Pradilla No. 5 - 31 ESTE Local 127 CC Plaza Mayor Bogotá",
-                            PostalCode = "M1234",
-                            City = "Chia",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Chico",
-                            Telephone="1234-5678",
-                            Address ="Carrera 10 No. 96-25 Consultorio 205 Ext. 311",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Country",
-                            Telephone="1234-5678",
-                            Address ="Carrera 16 No. 84-A -09 Consultorio 613 Ext. 305",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Country Cima",
-                            Telephone="1234-5678",
-                            Address ="Calle 83 No. 16-A - 44 Consultorio 208 Ext. 327",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Country Medical Center",
-                            Telephone="1234-5678",
-                            Address ="Carrera. 19 A No. 82-85 Consultorio 223",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Marly",
-                            Telephone="1234-5678",
-                            Address ="Calle 50 No. 8-24 Consultorio 101 Ext. 307",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Pasadena",
-                            Telephone="1234-5678",
-                            Address ="Calle 106 #56- 41 Piso 2 Ext. 313",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Salitre",
-                            Telephone="1234-5678",
-                            Address ="Av. Calle 24 No. 69c - 17 Junto A Metro Express",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Santa Barbara",
-                            Telephone="1234-5678",
-                            Address ="Carrera 7 No. 121-95 Ext 201",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Sede Americas",
-                            Telephone="1234-5678",
-                            Address ="Calle 6A No. 70 - 26",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Toberin",
-                            Telephone="1234-5678",
-                            Address ="Carrera 21 No. 166 - 81",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
-                        },
-                        new Sucursal(){
-                            Name="Unicentro",
-                            Telephone="1234-5678",
-                            Address ="Cll 127 # 14 - 12",
-                            PostalCode = "M1234",
-                            City = "Bogotá",
-                            OpeningTime = "6:00",
-                            ClosingTime = "12:00",
-                            WorkingDays = "L a Sab",
-                            CreatedOn = DateTime.UtcNow
+
+                    if (!context.Sucursales.Any ()) {
+                        var sucursalesList= new List<Sucursal>(){
+                            new Sucursal(){
+                                Name="Bosque",
+                                Telephone="1234-5678",
+                                Address ="Cl. 134 #7b-83",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Centro Internacional",
+                                Telephone="1234-5678",
+                                Address ="Carrera 13-A No. 34-55 Cons. 101 - 102 Ext. 317",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Chia",
+                                Telephone="1234-5678",
+                                Address ="Av. Pradilla No. 5 - 31 ESTE Local 127 CC Plaza Mayor Bogotá",
+                                PostalCode = "M1234",
+                                City = "Chia",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Chico",
+                                Telephone="1234-5678",
+                                Address ="Carrera 10 No. 96-25 Consultorio 205 Ext. 311",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Country",
+                                Telephone="1234-5678",
+                                Address ="Carrera 16 No. 84-A -09 Consultorio 613 Ext. 305",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Country Cima",
+                                Telephone="1234-5678",
+                                Address ="Calle 83 No. 16-A - 44 Consultorio 208 Ext. 327",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Country Medical Center",
+                                Telephone="1234-5678",
+                                Address ="Carrera. 19 A No. 82-85 Consultorio 223",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Marly",
+                                Telephone="1234-5678",
+                                Address ="Calle 50 No. 8-24 Consultorio 101 Ext. 307",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Pasadena",
+                                Telephone="1234-5678",
+                                Address ="Calle 106 #56- 41 Piso 2 Ext. 313",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Salitre",
+                                Telephone="1234-5678",
+                                Address ="Av. Calle 24 No. 69c - 17 Junto A Metro Express",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Santa Barbara",
+                                Telephone="1234-5678",
+                                Address ="Carrera 7 No. 121-95 Ext 201",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Sede Americas",
+                                Telephone="1234-5678",
+                                Address ="Calle 6A No. 70 - 26",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Toberin",
+                                Telephone="1234-5678",
+                                Address ="Carrera 21 No. 166 - 81",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            },
+                            new Sucursal(){
+                                Name="Unicentro",
+                                Telephone="1234-5678",
+                                Address ="Cll 127 # 14 - 12",
+                                PostalCode = "M1234",
+                                City = "Bogotá",
+                                OpeningTime = "6:00",
+                                ClosingTime = "12:00",
+                                WorkingDays = "L a Sab",
+                                CreatedOn = DateTime.UtcNow
+                            }
+                        };
+                        foreach (var sucursal in sucursalesList)
+                        {                           
+                            context.Sucursales.Add(sucursal);
                         }
-                    };
-                    foreach (var sucursal in sucursalesList)
-                    {                           
-                        context.Sucursales.Add(sucursal);
+                        context.SaveChanges();
                     }
-                    context.SaveChanges();
                 }
             }
         }
