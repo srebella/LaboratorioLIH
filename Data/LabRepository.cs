@@ -43,15 +43,38 @@ namespace laberegisterLIH.Data
             }
         }
         
+        public IEnumerable<Appointment> GetAllAppointments()
+        {
+            try
+            {
+                return _context.Appointments.OrderBy(e => e.Date).ToList();
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to get all appointment {ex}");
+                return null;
+            }
+        }
+        
         public bool AddNewScheduleClientes(string userId, string examId, string date, string time, string sucursalId)
         {
             try
             {
                 //get appuser
                 var user = _context.Clientes.Where(u => u.Id == userId).FirstOrDefault();
+                var exam = _context.Examenes.Where(u => u.Id == Int32.Parse(examId)).FirstOrDefault();
+                var sucursal = _context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault();
+
                 //update values
-                user.RegistrationPlace.Add(_context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault());
-                user.ExamsTaken.Add(_context.Examenes.Where(u => u.Id == Int32.Parse(examId)).FirstOrDefault());
+                //user.RegistrationPlace.Add(_context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault());
+                //user.ExamsTaken.Add(_context.Examenes.Where(u => u.Id == Int32.Parse(examId)).FirstOrDefault());
+                var appt = new Appointment(){
+                    User = user,
+                    Examen = exam,
+                    Date = DateTime.Parse(date),
+                    Sucursal = sucursal
+                };
+                
                 //save 
                 _context.SaveChanges();
                 return false;

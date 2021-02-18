@@ -13,6 +13,7 @@ export class HomeComponent {
   _http: HttpClient;
   today = this.calendar.getToday();
   public examenes: Examen[];
+  public allExams: Examen[];
   form: any;
   options = {
         headers: new HttpHeaders({

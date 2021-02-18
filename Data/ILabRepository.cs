@@ -11,6 +11,7 @@ namespace laberegisterLIH.Data
     {
         public IEnumerable<Examen> GetAllExams();
         public IEnumerable<Sucursal> GetAllSucursales();
+        public IEnumerable<Appointment> GetAllAppointments();
         bool AddNewScheduleClientes(string userId, string examId, string date, string time, string sucursalId);
         bool SaveAll();
     }

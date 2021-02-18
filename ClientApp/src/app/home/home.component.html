@@ -3,7 +3,7 @@
 <form class="form-inline" (ngSubmit)="sendData()">
   <div class="form-group mb-2">    
     <label for="examenes" class="sr-only">Seleccione Examen</label>
-    <select class="form-control" [(ngModel)]="allExamenes" id="examen" name="examen">
+    <select class="form-control" [(ngModel)]="allExams" id="examen" name="examen">
       <option *ngFor="let exam of examenes" [value]="exam.id">{{exam.name}}</option>
     </select>
   </div>

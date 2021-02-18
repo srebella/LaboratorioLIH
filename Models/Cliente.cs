@@ -19,8 +19,10 @@ namespace laberegisterLIH.Models
         
         public string PersonalId { get; set; }
         
-        public ICollection<Sucursal> RegistrationPlace { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
         
-        public ICollection<Examen> ExamsTaken { get; set; }
+        // public ICollection<Sucursal> RegistrationPlace { get; set; }
+        
+        // public ICollection<Examen> ExamsTaken { get; set; }
     }
 }

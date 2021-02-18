@@ -11,6 +11,11 @@ using laberegisterLIH.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
+using System;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
 
 namespace laberegisterLIH
 {
@@ -30,11 +35,29 @@ namespace laberegisterLIH
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            CultureInfo[] supportedCultures = new[]
+                {
+                new CultureInfo("es"),
+                new CultureInfo("en")
+            };
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("es");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider()
+                };
+            });
+
             services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()
@@ -86,6 +109,8 @@ namespace laberegisterLIH
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseRequestLocalization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
