@@ -28,6 +28,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="QRCoder" Version="1.4.1" />
     <PackageReference Include="Sendgrid" Version="9.22.0" />
     <PackageReference Include="Twilio" Version="5.54.0" />
