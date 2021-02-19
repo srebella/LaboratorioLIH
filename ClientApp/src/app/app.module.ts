@@ -14,6 +14,8 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { ApptUpdateComponent } from './appt-update/appt-update.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { FeedbackComponent } from './feedback/feedback.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    ApptUpdateComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +34,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
     FormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: LandingComponent, pathMatch: 'full' },
+      { path: 'turnos', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthorizeGuard]},
       { path: 'counter', component: CounterComponent , canActivate: [AuthorizeGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'feedback', component: FeedbackComponent},
