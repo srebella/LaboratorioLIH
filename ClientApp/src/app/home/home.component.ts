@@ -46,7 +46,7 @@ export class HomeComponent {
 
     // tslint:disable-next-line:max-line-length
     const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
-         Time: this.model.examen.hours, SucursalId: this.model.sucursal };
+         Time: this.model.hours, SucursalId: this.model.sucursal };
     this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
       (response) => {
         console.log(response);

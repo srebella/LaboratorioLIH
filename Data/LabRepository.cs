@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.IO;
 using System.Drawing;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 namespace laberegisterLIH.Data
 {
@@ -74,11 +75,12 @@ namespace laberegisterLIH.Data
                 var sucursal = _context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault();
 
                 //update values
-                
+                var dtStr= date+ " " +time+":00";
+                DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-M-dd HH:mm", null);
                 var appt = new Appointment(){
                     User = user,
                     Examen = exam,
-                    Date = DateTime.Parse(date+ " " +time),
+                    Date = (DateTime)dt,
                     Sucursal = sucursal
                 };
 
@@ -88,7 +90,7 @@ namespace laberegisterLIH.Data
                     //Generate QR 
                     //var imageQR = GenerateQR();
                     //Attach image in email
-                    SendEmail(user.UserName, DateTime.Parse(date).ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name);
+                    SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name);
                 }
                 return _context.SaveChanges();
             }
@@ -151,10 +153,7 @@ namespace laberegisterLIH.Data
                                 Sus datos del turno son:
                                 </p>
                                 <p>
-                                Fecha: " + date + @"
-                                </p>
-                                <p>
-                                Hora: " + hour + @"
+                                Fecha y hora: " + date + @"
                                 </p>
                                 <p>
                                 Examen: " + examen + @"
