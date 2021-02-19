@@ -43,7 +43,6 @@ export class HomeComponent {
     // formData.append('time', '9');
     // formData.append('sucursalId', this.form.get('sucursal').value);
 
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model));
     // tslint:disable-next-line:max-line-length
     const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
          Time: this.model.examen.hours, SucursalId: this.model.sucursal };
