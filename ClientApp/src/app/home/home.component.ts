@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -8,12 +9,14 @@ import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  model: NgbDateStruct;
   _baseUrl: string;
   _http: HttpClient;
   today = this.calendar.getToday();
   public examenes: Examen[];
+  public sucursales: Sucursal[];
   public allExams: Examen[];
+  public allSucs: Sucursal[];
+  model: any = {};
   form: any;
   options = {
         headers: new HttpHeaders({
@@ -27,17 +30,24 @@ export class HomeComponent {
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
     }, error => console.error(error));
+    http.get<Sucursal[]>(baseUrl + 'api/GetSucursales').subscribe(result => {
+      this.sucursales = result;
+    }, error => console.error(error));
   }
 
   sendData() {
-    const formData: any = new FormData();
-    formData.append('userId', '3');
-    formData.append('examId', '2'); //   this.form.get('examanes').value);
-    formData.append('date', '1212-5-5');
-    formData.append('time', '9');
-    formData.append('sucursalId', '1');
-    const data = {userId: '3', examId: '2', Date: '1212-5-5', Time: '9', SucursalId: '1'};
-        this._http.post<Examen>(this._baseUrl + 'api/examenes/set', data, this.options).subscribe(
+    // const formData: any = new FormData();
+    // formData.append('userId', '2');
+    // formData.append('examId', this.form.get('examen').value); //   this.form.get('examanes').value);
+    // formData.append('date', '1212-5-5');
+    // formData.append('time', '9');
+    // formData.append('sucursalId', this.form.get('sucursal').value);
+
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.model));
+    // tslint:disable-next-line:max-line-length
+    const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
+         Time: this.model.examen.hours, SucursalId: this.model.sucursal };
+    this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
       (response) => console.log(response),
       (error) => console.log(error)
     );
@@ -50,5 +60,9 @@ interface Examen {
   Date: string;
   Time: string;
   SucursalId: string;
+}
+interface Sucursal {
+  Id: string;
+  Name: string;
 }
 

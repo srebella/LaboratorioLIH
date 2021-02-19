@@ -1,10 +1,16 @@
 <h1>Bienvenido a Lab!</h1>
 <div class="card-body">
-<form class="form-inline" (ngSubmit)="sendData()">
+<form #newAppointmentForm="ngForm" name="form" class="form-inline" (ngSubmit)="sendData()">
   <div class="form-group mb-2">    
     <label for="examenes" class="sr-only">Seleccione Examen</label>
-    <select class="form-control" [(ngModel)]="allExams" id="examen" name="examen">
+    <select class="form-control" [(ngModel)]="model.examen" #examen="ngModel" name="examen">
       <option *ngFor="let exam of examenes" [value]="exam.id">{{exam.name}}</option>
+    </select>
+  </div>
+  <div class="form-group mb-2">    
+    <label for="sucursales" class="sr-only">Seleccione Sucursal</label>
+    <select class="form-control" [(ngModel)]="model.sucursal" #sucursal="ngModel" name="sucursal">
+      <option *ngFor="let sucursal of sucursales" [value]="sucursal.id">{{sucursal.name}}</option>
     </select>
   </div>
   <div class="form-group row mb-2">
@@ -13,7 +19,7 @@
       <form class="form-inline">
         <div class="form-group">
           <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+            <input class="form-control" placeholder="yyyy-mm-dd"  [(ngModel)]="model.date" #date="ngModel" name="date" ngbDatepicker
               [footerTemplate]="footerTemplate" #d="ngbDatepicker" [minDate]="today" placeholder="Seleccione Fecha" readonly>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"></button>
@@ -31,7 +37,7 @@
   </div>
   <div class="form-group mx-sm-3 mb-2">
     <label for="hours" class="sr-only">Seleccione Hora</label>
-    <select class="custom-select" name="hours" id="hours">
+    <select class="custom-select" name="hours" [(ngModel)]="model.hours" #hours="ngModel" name="hours">
       <option value="9">9:00</option>
       <option value="10">10:00</option>
       <option value="11">11:00</option>
