@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -24,7 +25,7 @@ export class HomeComponent {
         }),
         body: {}
     };
-  constructor(private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private router: Router, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
     this._http = http;
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
@@ -47,7 +48,11 @@ export class HomeComponent {
     const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
          Time: this.model.examen.hours, SucursalId: this.model.sucursal };
     this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
-      (response) => console.log(response),
+      (response) => {
+        console.log(response);
+        this.router.navigate(['/fetch-data']);
+      }
+        ,
       (error) => console.log(error)
     );
   }

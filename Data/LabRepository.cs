@@ -78,7 +78,7 @@ namespace laberegisterLIH.Data
                 var appt = new Appointment(){
                     User = user,
                     Examen = exam,
-                    Date = DateTime.Parse(date),
+                    Date = DateTime.Parse(date+ " " +time),
                     Sucursal = sucursal
                 };
 
