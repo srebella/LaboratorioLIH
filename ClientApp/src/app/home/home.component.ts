@@ -11,6 +11,7 @@ import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HomeComponent {
   _baseUrl: string;
+  public _show: boolean;
   _http: HttpClient;
   today = this.calendar.getToday();
   public examenes: Examen[];
@@ -37,24 +38,20 @@ export class HomeComponent {
   }
 
   sendData() {
-    // const formData: any = new FormData();
-    // formData.append('userId', '2');
-    // formData.append('examId', this.form.get('examen').value); //   this.form.get('examanes').value);
-    // formData.append('date', '1212-5-5');
-    // formData.append('time', '9');
-    // formData.append('sucursalId', this.form.get('sucursal').value);
-
     // tslint:disable-next-line:max-line-length
-    const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
+    if (confirm('Esta seguro que quiere confirmar turno?')) {
+        // tslint:disable-next-line:max-line-length
+        const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-0' + this.model.date.month + '-' + this.model.date.day,
          Time: this.model.hours, SucursalId: this.model.sucursal };
-    this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
-      (response) => {
-        console.log(response);
-        this.router.navigate(['/fetch-data']);
-      }
-        ,
-      (error) => console.log(error)
-    );
+          this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
+            (response) => {
+              console.log(response);
+              this._show = !this._show;
+            }
+              ,
+            (error) => console.log(error)
+          );
+         }
   }
 }
 

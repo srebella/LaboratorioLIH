@@ -76,7 +76,7 @@ namespace laberegisterLIH.Data
 
                 //update values
                 var dtStr= date+ " " +time+":00";
-                DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-M-dd HH:mm", null);
+                DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-MM-dd HH:mm", null);
                 var appt = new Appointment(){
                     User = user,
                     Examen = exam,
@@ -145,7 +145,7 @@ namespace laberegisterLIH.Data
                 var message = EmailMessageBuilder
                                     .Init()
                                     .AddSubject("Gracias por registrar tu turno con LIH Laboratorio de Investigación Hormonal")
-                                    .AddFrom("santi.rebella87@gmail.com")
+                                    .AddFrom("qworks2021@gmail.com")
                                     .AddBody(@"<p></p>
                                 Gracias por registrar su turno con nosotros
                                 </p>

@@ -1,6 +1,6 @@
 <h1>Bienvenido!</h1>
-<div class="card-body">
-<form #newAppointmentForm="ngForm" name="form" class="form-inline" (ngSubmit)="sendData()">
+<div class="card-body" *ngIf="!_show">
+<form  #newAppointmentForm="ngForm" name="form" class="form-inline" (ngSubmit)="sendData()">
   <div class="form-group mb-2">    
     <label for="examenes" class="sr-only">Seleccione Examen</label>
     <select class="form-control" [(ngModel)]="model.examen" #examen="ngModel" name="examen">
@@ -49,7 +49,9 @@
       <option value="17">17:00</option>
     </select>
   </div>
-  <button type="submit" class="btn btn-primary mb-2">Confirmar</button>
+  <button type="submit" class="btn btn-primary mb-2" >Confirmar</button>
 </form>
 
 </div>
+
+<div *ngIf="_show">TODO: Mostrar datos de registro</div>

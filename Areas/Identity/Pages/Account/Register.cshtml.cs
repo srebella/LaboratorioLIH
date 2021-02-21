@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace laberegisterLIH.Areas.Identity.Pages.Account
 {
@@ -24,17 +25,20 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _config;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender
+            , IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _config = config;
         }
 
         [BindProperty]
@@ -91,13 +95,14 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
+                    SendEmail(Input.Email);
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
@@ -110,6 +115,78 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private void SendEmail(string EmailTo){
+            try
+            {
+                var mailMsg = new GmailEmailSender(new GmailEmailSettings(_config.GetValue<string>(
+                        "AppIdentitySettings:Username"), _config.GetValue<string>(
+                        "AppIdentitySettings:Password")));
+
+                var message = EmailMessageBuilder
+                                    .Init()
+                                    .AddSubject("Gracias por registrar tu turno con LIH Laboratorio de Investigación Hormonal")
+                                    .AddFrom("qworks2021@gmail.com")
+                                    .AddBody(@"<p></p>
+                                Gracias por registrarse con nosotros
+                                </p>
+                                <p>Por favor inicie sesion ingresando <a href='https://qworkslablih.azurewebsites.net/Identity/Account/Login'>aqui</a>
+                                </p>
+                                <p>
+                                Correo enviado el " + DateTime.UtcNow + @"
+                                </p>
+                                <p>
+                                Laboratorio de Investigación Hormonal
+                                </p>")
+                                //     .AddBody(@"<p></p>
+                                // ERES MUY IMPORTANTE PARA NOSOTROS
+                                // </p>
+                                // <p>
+                                // Por favor, permítenos conocer tu opinión sobre nuestro servicio, esto nos ayudará a seguir mejorando para ofrecerte una mejor experiencia.
+                                // </p><p>
+                                // Muchas gracias por tus respuestas
+                                // </p><p>
+
+
+                                // ¡Buscamos en tu interior, la clave de tu bienestar!
+                                // </p><p>
+                                // <a href='http://qworkslablih.azurewebsites.net/feedback?id=12'>Diligenciar encuesta</a>
+                                // </p><p>
+
+                                // Correo enviado el " + DateTime.UtcNow + @"
+                                // </p></p>
+                                // Laboratorio de Investigación Hormonal
+                                // </p>")
+                                    .AddTo(EmailTo)
+                                    .Build();
+
+                // Send Email Message
+                var response = mailMsg.SendAsync(message).Result;
+
+                Console.WriteLine(response);
+
+
+                //Twilio
+                // var accountSid = "ACc5147d20e801376be9c9820c71e3e093"; 
+                // var authToken = "85259c16213f9da06ab9d5aa173fc3e5"; 
+                // TwilioClient.Init(accountSid, authToken); 
+
+                // var messageOptions = new CreateMessageOptions( 
+                //     new PhoneNumber("whatsapp:+59899852623")); 
+                // messageOptions.From = new PhoneNumber("whatsapp:+14155238886");    
+                // messageOptions.Body = "http://qworkslablih.azurewebsites.net/feedback?id=12";   
+
+                // var messages = MessageResource.Create(messageOptions); 
+                // Console.WriteLine(messages.Body); 
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }
