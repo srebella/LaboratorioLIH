@@ -18,7 +18,7 @@ public class GmailEmailSender
            // Message  
             var msg = new MailMessage();  
             msg.Subject = message.Subject;  
-            msg.From = new MailAddress(message.From, "User");  
+            msg.From = new MailAddress(message.From, "QWorks");  
 
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(message.Body, null, MediaTypeNames.Text.Html));
             foreach (var to in message.To)
