@@ -47,7 +47,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirme su contraseña")]
-            [Compare("NewPassword", ErrorMessage = "La contraseña y la confirmacion deben coincidir")]
+            [Compare("NewPassword", ErrorMessage = "La contraseña y la confirmación deben coincidir")]
             public string ConfirmPassword { get; set; }
         }
 

@@ -16,11 +16,11 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hola @User.Identity.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil </a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/">
-                <button type="submit" class="nav-link btn btn-link text-dark">Cerrar sesion</button>
+                <button type="submit" class="nav-link btn btn-link text-dark">Cerrar sesión </button>
             </form>
         </li>
     }
@@ -30,7 +30,7 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@returnUrl">Registro</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@returnUrl">Iniciar sesion</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@returnUrl">Iniciar sesión </a>
         </li>
     }
 </ul>

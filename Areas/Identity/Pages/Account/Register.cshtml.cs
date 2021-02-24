@@ -63,7 +63,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
-            [Compare("Password", ErrorMessage = "La contraseña y la confirmacion deben coincidir")]
+            [Compare("Password", ErrorMessage = "La contraseña y la confirmación deben coincidir")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -131,7 +131,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
                                     .AddBody(@"<p></p>
                                 Gracias por registrarse con nosotros
                                 </p>
-                                <p>Por favor inicie sesion ingresando <a href='https://qworkslablih.azurewebsites.net/Identity/Account/Login'>aqui</a>
+                                <p>Por favor inicie sesión ingresando <a href='https://qworkslablih.azurewebsites.net/Identity/Account/Login'>aqui</a>
                                 </p>
                                 <p>
                                 Correo enviado el " + DateTime.UtcNow + @"

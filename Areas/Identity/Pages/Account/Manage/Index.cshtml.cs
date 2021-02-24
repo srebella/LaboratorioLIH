@@ -35,7 +35,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Numero de telefono")]
+            [Display(Name = "Número de teléfono")]
             public string PhoneNumber { get; set; }
         }
 
