@@ -51,10 +51,16 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Nombre")]
+            public string Name { get; set; }
+            [Required]
+            [Display(Name = "Apellido")]
+            public string Surname { get; set; }  
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-
             [Required]
             [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
