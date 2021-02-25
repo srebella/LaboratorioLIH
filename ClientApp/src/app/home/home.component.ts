@@ -30,6 +30,7 @@ export class HomeComponent {
   constructor(private router: Router, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
     this._http = http;
+    this.model.hours = null;
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
     }, error => console.error(error));

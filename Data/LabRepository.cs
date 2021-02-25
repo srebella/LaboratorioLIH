@@ -84,8 +84,8 @@ namespace laberegisterLIH.Data
             {
                 //get appuser
                 var user = await _userManager.FindByIdAsync(userId);
-                var exam = _context.Examenes.Where(u => u.Id == Int32.Parse(examId)).FirstOrDefault();
-                var sucursal = _context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault();
+                var exam = _context.Examenes.Where(u => u.Name == examId).FirstOrDefault();
+                var sucursal = _context.Sucursales.Where(u => u.Name == sucursalId).FirstOrDefault();
 
                 //update values
                 var dtStr = date+ " " +time+":00";
