@@ -65,6 +65,19 @@ namespace laberegisterLIH.Data
             }
         }
         
+        public IEnumerable<Appointment> GetAppointmentsByUser(string userId)
+        {
+            try
+            {
+                return _context.Appointments.Where(e => e.User.Id == userId).ToList();
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to get all appointment {ex}");
+                return null;
+            }
+        }
+        
         public async System.Threading.Tasks.Task<int> AddNewScheduleClientesAsync(string userId, string examId, string date, string time, string sucursalId)
         {
             try

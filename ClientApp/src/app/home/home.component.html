@@ -54,4 +54,30 @@
 
 </div>
 
-<div *ngIf="_show">TODO: Mostrar datos de registro</div>
+<div *ngIf="_show">
+  
+<p *ngIf="!appointments"><em>Cargando...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="examenes">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Sucursal</th>
+      <th>User</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let appt of appointments">
+      <td>{{ appt.ExamId }}</td>
+      <td>{{ appt.Date }}</td>
+      <td>{{ appt.Time }}</td>
+      <td>{{ appt.SucursalId }}</td>
+      <td>{{ appt.UserId }}</td>
+      <td><button type="submit" class="btn btn-primary mb-2" >Editar</button></td>
+    </tr>
+  </tbody>
+</table>
+</div>

@@ -15,6 +15,7 @@ export class HomeComponent {
   _http: HttpClient;
   today = this.calendar.getToday();
   public examenes: Examen[];
+  public appointments: Appt[];
   public sucursales: Sucursal[];
   public allExams: Examen[];
   public allSucs: Sucursal[];
@@ -47,8 +48,12 @@ export class HomeComponent {
             (response) => {
               console.log(response);
               this._show = !this._show;
-            }
-              ,
+              this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
+                (response2) => {
+                  this.appointments = response2;
+                }, error => console.error(error));
+
+            },
             (error) => console.log(error)
           );
          }
@@ -65,5 +70,12 @@ interface Examen {
 interface Sucursal {
   Id: string;
   Name: string;
+}
+interface Appt {
+  Id: string;
+  UserId: string;
+  SucursalId: string;
+  ExamenId: string;
+  Date: string;
 }
 

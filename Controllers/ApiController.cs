@@ -54,6 +54,15 @@ namespace laberegisterLIH.Controllers
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             return await _repository.AddNewScheduleClientesAsync(currentUserId, data.ExamId, data.Date, data.Time, data.SucursalId);
         }
+        
+        [HttpGet]
+        [Route("GetAppointmentByUserId")]
+        public IEnumerable<Appointment> GetAsync()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return  _repository.GetAppointmentsByUser(currentUserId);
+        }
 
         [HttpGet]
         [Route("GetSucursales")]
