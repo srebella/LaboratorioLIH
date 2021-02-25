@@ -75,13 +75,14 @@ namespace laberegisterLIH.Data
                 var sucursal = _context.Sucursales.Where(u => u.Id == Int32.Parse(sucursalId)).FirstOrDefault();
 
                 //update values
-                var dtStr= date+ " " +time+":00";
+                var dtStr = date+ " " +time+":00";
                 DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-MM-dd HH:mm", null);
                 var appt = new Appointment(){
                     User = user,
                     Examen = exam,
                     Date = (DateTime)dt,
-                    Sucursal = sucursal
+                    Sucursal = sucursal,
+                    CreatedOn = DateTime.UtcNow
                 };
 
                 //save 
