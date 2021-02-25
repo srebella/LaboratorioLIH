@@ -13,11 +13,12 @@
     <div class="form-group row">
       <label for="sucursal" class="col-sm-2 col-form-label">Seleccione Sucursal</label>
       <div class="col-sm-6">
-        <input class="form-control" list="sucursal" name="sucursal" [(ngModel)]="model.sucursal" #sucursal="ngModel" placeholder="Seleccione Sucursal">
+        <input class="form-control" list="sucursal" name="sucursal" [(ngModel)]="model.sucursal" #sucursal="ngModel" placeholder="Seleccione Sucursal" (change)="onSortChange($event)">
         <datalist class="form-control"  id="sucursal" [hidden]="true">
           <option *ngFor="let sucursal of sucursales" [value]="sucursal.name">{{sucursal.name}}</option>
         </datalist>
       </div>
+      
     </div>
 
     <fieldset class="form-group">

@@ -17,6 +17,7 @@ export class HomeComponent {
   public examenes: Examen[];
   public appointments: Appt[];
   public sucursales: Sucursal[];
+  public sucdata: Sucursal;
   public allExams: Examen[];
   public allSucs: Sucursal[];
   model: any = {};
@@ -59,7 +60,16 @@ export class HomeComponent {
           );
          }
   }
+  onSortChange(e) {
+    this.sucdata =  this.sucursales.find(s => {
+      return s.Name === e.target.value;
+   });
+   console.log(this.sucdata);
+  }
 }
+
+
+
 
 interface Examen {
   UserId: string;
@@ -71,6 +81,7 @@ interface Examen {
 interface Sucursal {
   Id: string;
   Name: string;
+  Address: string;
 }
 interface Appt {
   Id: string;
