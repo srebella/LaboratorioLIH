@@ -69,7 +69,8 @@ namespace laberegisterLIH.Data
         {
             try
             {
-                return _context.Appointments.Where(e => e.User.Id == userId).ToList();
+                var a = _context.Appointments.Where(e => e.User.Id == userId).ToList();
+                return a;
             }
             catch (System.Exception ex)
             {

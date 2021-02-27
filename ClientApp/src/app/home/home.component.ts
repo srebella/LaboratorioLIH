@@ -12,6 +12,7 @@ import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 export class HomeComponent {
   _baseUrl: string;
   public _show: boolean;
+  _sucSelected: boolean;
   _http: HttpClient;
   today = this.calendar.getToday();
   public examenes: Examen[];
@@ -50,21 +51,39 @@ export class HomeComponent {
             (response) => {
               console.log(response);
               this._show = !this._show;
-              this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
-                (response2) => {
-                  this.appointments = response2;
-                }, error => console.error(error));
-
+              this.getAppointmentsById();
             },
             (error) => console.log(error)
           );
          }
   }
   onSortChange(e) {
+  //   for (let d = 0, len = this.sucursales.length; d < len; d += 1) {
+  //     if (this.sucursales[d].Name === e.target.value) {
+  //       this.sucdata = this.sucursales[d];
+  //       this._sucSelected = true;
+  //     }
+  // }
     this.sucdata =  this.sucursales.find(s => {
-      return s.Name === e.target.value;
+      return s.name === e.target.value;
    });
+   this._sucSelected = true;
    console.log(this.sucdata);
+  }
+  verTurnos() {
+    this._show = !this._show;
+    this.getAppointmentsById();
+  }
+
+  getAppointmentsById() {
+    this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
+      (response2) => {
+        this.appointments = response2;
+      }, error => console.error(error));
+  }
+
+  reload() {
+    this._show = !this._show;
   }
 }
 
@@ -79,15 +98,15 @@ interface Examen {
   SucursalId: string;
 }
 interface Sucursal {
-  Id: string;
-  Name: string;
-  Address: string;
+  id: string;
+  name: string;
+  address: string;
 }
 interface Appt {
-  Id: string;
-  UserId: string;
-  SucursalId: string;
-  ExamenId: string;
+  id: string;
+  userId: string;
+  sucursalId: string;
+  examenId: string;
   Date: string;
 }
 

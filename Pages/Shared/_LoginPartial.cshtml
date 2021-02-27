@@ -16,6 +16,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <a class="nav-link text-dark" href="/" title="Incio">Inicio </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil </a>
         </li>
         <li class="nav-item">

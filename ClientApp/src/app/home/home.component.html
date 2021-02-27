@@ -9,6 +9,9 @@
           <option *ngFor="let exam of examenes" [value]="exam.name">{{exam.name}}</option>
         </datalist >
       </div>
+      <!-- <div *ngIf="_examSelected" class="col-sm-4">
+        <legend class="col-form-label">Requerimientos {{examdata.address}}</legend>
+      </div>   -->
     </div>
     <div class="form-group row">
       <label for="sucursal" class="col-sm-2 col-form-label">Seleccione Sucursal</label>
@@ -17,13 +20,15 @@
         <datalist class="form-control"  id="sucursal" [hidden]="true">
           <option *ngFor="let sucursal of sucursales" [value]="sucursal.name">{{sucursal.name}}</option>
         </datalist>
-      </div>
-      
-    </div>
+      </div>      
+      <div *ngIf="_sucSelected" class="col-sm-4">
+        <legend class="col-form-label">Direccion {{sucdata.address}}</legend>
+      </div>  
+    </div>    
 
-    <fieldset class="form-group">
-      <div class="row">
-        <legend class="col-form-label col-sm-2 pt-0">Fecha y Hora</legend>
+    <!-- <fieldset class="form-group"> -->
+      <div class="form-group row">
+        <legend class="col-form-label col-sm-2 pt-0">Fecha</legend>
         <div class="col-sm-3">          
           <form class="form-inline">
             <div class="form-group">
@@ -41,84 +46,37 @@
               </div>
             </div>
           </form>         
-        </div>
-        <div class="col-sm-2">   
-          <select class="custom-select" name="hours" [(ngModel)]="model.hours" #hours="ngModel" name="hours" placeholder="Hora">
-            <option value="null">Hora</option>
-            <option value="9">9:00</option>
-            <option value="10">10:00</option>
-            <option value="11">11:00</option>
-            <option value="12">12:00</option> 
-            <option value="13">13:00</option>
-            <option value="14">14:00</option>
-            <option value="15">15:00</option>
-            <option value="16">16:00</option>
-            <option value="17">17:00</option>
-          </select>
-        </div>
+        </div>        
       </div>
-    </fieldset>   
+    <!-- </fieldset>   -->
     <div class="form-group row">
-      <div class="col-sm-10">
+      <label for="hora" class="col-sm-2 col-form-label">Hora</label>
+      <div class="col-sm-3">   
+        <select class="custom-select" name="hours" [(ngModel)]="model.hours" #hours="ngModel" name="hours" placeholder="Hora">
+          <option value="null">Hora</option>
+          <option value="9">9:00</option>
+          <option value="10">10:00</option>
+          <option value="11">11:00</option>
+          <option value="12">12:00</option> 
+          <option value="13">13:00</option>
+          <option value="14">14:00</option>
+          <option value="15">15:00</option>
+          <option value="16">16:00</option>
+          <option value="17">17:00</option>
+        </select>
+      </div> 
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-3">
         <button type="submit" class="btn btn-primary">Confirmar</button>
+      </div>
+      <div class="col-sm-3">
+        <button type="button" class="btn btn-primary" (click)="verTurnos()">Ver turnos</button>
       </div>
     </div>
   </form>
 </div>
-<!-- <div class="card-body" *ngIf="!_show">
-<form  #newAppointmentForm="ngForm" name="form" class="form-inline" (ngSubmit)="sendData()">
-  <div class="form-group col-md-6">    
-    <input class="form-control" list="examen" name="examen"  placeholder="Seleccione Examen">
-    <datalist  class="form-control" [(ngModel)]="model.examen" #examen="ngModel" id="examen"  [hidden]="true">
-      <option *ngFor="let exam of examenes" [value]="exam.name">{{exam.name}}</option>
-    </datalist >
-  </div>
-  <div class="form-group col-md-6">
-    <input class="form-control" list="sucursal" name="sucursal" placeholder="Seleccione Sucursal">
-    <datalist class="form-control" [(ngModel)]="model.sucursal" #sucursal="ngModel" id="sucursal" [hidden]="true">
-      <option *ngFor="let sucursal of sucursales" [value]="sucursal.name">{{sucursal.name}}</option>
-    </datalist>
-  </div>
-  <div class="form-group col-md-6">
-    <label for="date" class="sr-only">Fecha</label>
-    <div class="container">
-      <form class="form-inline">
-        <div class="form-group">
-          <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd"  [(ngModel)]="model.date" #date="ngModel" name="date" ngbDatepicker
-              [footerTemplate]="footerTemplate" #d="ngbDatepicker" [minDate]="today" placeholder="Seleccione Fecha" readonly>
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"></button>
-            </div>
-            <ng-template #footerTemplate>
-              <hr class="my-0">
-              <button class="btn btn-primary btn-sm m-2 float-left" (click)="model = today; d.close()">Today</button>
-              <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Close</button>
-            </ng-template>
-          </div>
-        </div>
-      </form>
-    </div>
-    
-  </div>
-  <div class="form-group col-md-6">
-    <label for="hours" class="sr-only">Seleccione Hora</label>
-    <select class="custom-select" name="hours" [(ngModel)]="model.hours" #hours="ngModel" name="hours">
-      <option value="9">9:00</option>
-      <option value="10">10:00</option>
-      <option value="11">11:00</option>
-      <option value="12">12:00</option> 
-      <option value="13">13:00</option>
-      <option value="14">14:00</option>
-      <option value="15">15:00</option>
-      <option value="16">16:00</option>
-      <option value="17">17:00</option>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-primary mb-2" >Confirmar</button>
-</form>
 
-</div> -->
 
 <div *ngIf="_show">
   
@@ -132,7 +90,7 @@
       <th>Hora</th>
       <th>Sucursal</th>
       <th>User</th>
-      <th></th>
+      <th><button type="button" class="btn btn-primary" (click)="reload()">Volver a Registro</button></th>
     </tr>
   </thead>
   <tbody>
