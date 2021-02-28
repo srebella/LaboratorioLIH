@@ -10,5 +10,6 @@ namespace laberegisterLIH.Models
         public Examen Examen { get; set; }
         public DateTime Date { get; set; }
         public DateTime CreatedOn { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

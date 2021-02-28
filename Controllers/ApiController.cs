@@ -65,6 +65,14 @@ namespace laberegisterLIH.Controllers
         }
 
         [HttpGet]
+        [Route("DeleteApptById")]
+        public bool DeleteApptById(string id)
+        {
+            var results = _repository.DeleteAppointmentsById(id);
+            return results;
+        }
+
+        [HttpGet]
         [Route("GetSucursales")]
         public IEnumerable<Sucursal> GetSucursales()
         {

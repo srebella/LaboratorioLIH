@@ -57,7 +57,7 @@ namespace laberegisterLIH.Data
         {
             try
             {
-                return _context.Appointments.OrderBy(e => e.Date).ToList();
+                return _context.Appointments.Where(e => !e.IsDeleted).OrderBy(e => e.Date).ToList();
             }
             catch (System.Exception ex)
             {
@@ -71,13 +71,29 @@ namespace laberegisterLIH.Data
             try
             {
                 var a = _context.Appointments.Include(r=>r.User).Include(r=>r.Examen).Include(r=>r.Sucursal)
-                            .Where(e => e.User.Id == userId).ToList();
+                            .Where(e => e.User.Id == userId && !e.IsDeleted).ToList();
                 return a;
             }
             catch (System.Exception ex)
             {
                 _logger.LogError($"Failed to get all appointment {ex}");
                 return null;
+            }
+        }
+        
+        public bool DeleteAppointmentsById(string id)
+        {
+            try
+            {
+                var a = _context.Appointments.Where(e => e.Id == Int32.Parse(id)).FirstOrDefault();
+                a.IsDeleted = true;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to delete appointment id {id} {ex}");
+                return false;
             }
         }
         

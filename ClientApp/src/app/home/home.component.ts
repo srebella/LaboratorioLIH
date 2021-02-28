@@ -88,8 +88,16 @@ export class HomeComponent {
   editarTurno(val) {
     alert(val);
   }
-  borrarTurno(val) {
-    alert(val);
+  borrarTurno(id) {
+    if (confirm('Esta seguro que quiere borrar confirmar el turno?')) {
+      this._http.get(this._baseUrl + 'api/DeleteApptById?id=' + id).subscribe(
+        (response) => {
+          if (response) {
+            this.getAppointmentsById();
+          }
+          return response;
+        }, error => console.error(error));
+    }
   }
 }
 
