@@ -89,18 +89,18 @@
       <th>Fecha</th>
       <th>Hora</th>
       <th>Sucursal</th>
-      <th>User</th>
+      <!-- <th>User</th> -->
       <th><button type="button" class="btn btn-primary" (click)="reload()">Volver a Registro</button></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let appt of appointments">
-      <td>{{ appt.ExamId }}</td>
-      <td>{{ appt.Date }}</td>
+      <td>{{ appt.examen.name }}</td>
+      <td>{{ appt.date }}</td>
       <td>{{ appt.Time }}</td>
-      <td>{{ appt.SucursalId }}</td>
-      <td>{{ appt.UserId }}</td>
-      <td><button type="submit" class="btn btn-primary mb-2" >Editar</button></td>
+      <td>{{ appt.sucursal.name }}</td>
+      <!-- <td>{{ appt.UserId }}{{ appt.id }}</td> -->
+      <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;<button type="submit" class="btn btn-primary mb-2" (click)="borrarTurno(appt.id)">Borrar</button></td>
     </tr>
   </tbody>
 </table>

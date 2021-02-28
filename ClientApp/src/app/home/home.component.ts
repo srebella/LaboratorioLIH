@@ -85,6 +85,12 @@ export class HomeComponent {
   reload() {
     this._show = !this._show;
   }
+  editarTurno(val) {
+    alert(val);
+  }
+  borrarTurno(val) {
+    alert(val);
+  }
 }
 
 

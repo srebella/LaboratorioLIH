@@ -8,6 +8,7 @@ using System.IO;
 using System.Drawing;
 using Microsoft.Extensions.Configuration;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 namespace laberegisterLIH.Data
 {
@@ -69,7 +70,8 @@ namespace laberegisterLIH.Data
         {
             try
             {
-                var a = _context.Appointments.Where(e => e.User.Id == userId).ToList();
+                var a = _context.Appointments.Include(r=>r.User).Include(r=>r.Examen).Include(r=>r.Sucursal)
+                            .Where(e => e.User.Id == userId).ToList();
                 return a;
             }
             catch (System.Exception ex)
