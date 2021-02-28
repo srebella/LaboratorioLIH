@@ -108,7 +108,7 @@ namespace laberegisterLIH.Data
 
                 //update values
                 var dtStr = date+ " " +time+":00";
-                DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-MM-dd HH:mm", null);
+                DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-M-d HH:mm", CultureInfo.InvariantCulture);
                 var appt = new Appointment(){
                     User = user,
                     Examen = exam,
