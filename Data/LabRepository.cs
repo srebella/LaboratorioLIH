@@ -81,6 +81,21 @@ namespace laberegisterLIH.Data
             }
         }
         
+        public Appointment GetAppointmentById(string id)
+        {
+            try
+            {
+                var a = _context.Appointments.Include(r=>r.Examen).Include(r=>r.Sucursal)
+                    .Where(e => e.Id == Int32.Parse(id)).FirstOrDefault();
+                return a;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to delete appointment id {id} {ex}");
+                return null;
+            }
+        }
+        
         public bool DeleteAppointmentsById(string id)
         {
             try

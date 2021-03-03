@@ -1,14 +1,17 @@
-<h1>Registre su Turno</h1>
+<h1 *ngIf="!_isEdit">Registre su Turno</h1>
+<h1 *ngIf="_isEdit">Edite su Turno</h1>
 <div class="card-body" *ngIf="!_show">
   <form #newAppointmentForm="ngForm" name="form" (ngSubmit)="sendData()">
     <div class="form-group row">
       <label for="examen" class="col-sm-2 col-form-label">Seleccione Examen</label>
       <div class="col-sm-6">
-        <input class="form-control" list="examen" name="examen" #examen="ngModel"  [(ngModel)]="model.examen" placeholder="Seleccione Examen">
+        <input class="form-control" list="examen" name="examen" #examen="ngModel"  [(ngModel)]="model.examen" placeholder="Seleccione Examen" (change)="searchExamen($event)">
         <datalist id="examen"  [hidden]="true">
           <option *ngFor="let exam of examenes" [value]="exam.name">{{exam.name}}</option>
         </datalist >
-      </div>
+      </div>      
+      
+
       <!-- <div *ngIf="_examSelected" class="col-sm-4">
         <legend class="col-form-label">Requerimientos {{examdata.address}}</legend>
       </div>   -->
@@ -16,13 +19,13 @@
     <div class="form-group row">
       <label for="sucursal" class="col-sm-2 col-form-label">Seleccione Sucursal</label>
       <div class="col-sm-6">
-        <input class="form-control" list="sucursal" name="sucursal" [(ngModel)]="model.sucursal" #sucursal="ngModel" placeholder="Seleccione Sucursal" (change)="onSortChange($event)">
+        <input class="form-control" list="sucursal" name="sucursal" [(ngModel)]="model.sucursal" #sucursal="ngModel" placeholder="Seleccione Sucursal" (change)="searchSucursal($event)">
         <datalist class="form-control"  id="sucursal" [hidden]="true">
           <option *ngFor="let sucursal of sucursales" [value]="sucursal.name">{{sucursal.name}}</option>
         </datalist>
       </div>      
       <div *ngIf="_sucSelected" class="col-sm-4">
-        <legend class="col-form-label">Direccion {{sucdata.address}}</legend>
+        <legend class="col-form-label">Dirección {{sucdata.address}}</legend>
       </div>  
     </div>    
 
@@ -68,13 +71,18 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-3">
-        <button type="submit" class="btn btn-primary">Confirmar</button>
+        <button type="submit" class="btn btn-primary" *ngIf="!_isEdit">Confirmar</button>
+        <button type="submit" class="btn btn-primary" *ngIf="_isEdit">Editar</button>
       </div>
       <div class="col-sm-3">
         <button type="button" class="btn btn-primary" (click)="verTurnos()">Ver turnos</button>
       </div>
     </div>
   </form>
+  <div *ngIf="_examSelected" class="col-sm-8">
+    <legend class="col-form-label">Requerimientos {{examdata.requirements}}</legend>
+    <legend class="col-form-label">Protocolos {{examdata.protocols}}</legend>
+  </div>  
 </div>
 
 
