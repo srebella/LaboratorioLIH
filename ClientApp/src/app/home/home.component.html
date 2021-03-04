@@ -108,7 +108,9 @@
       <td>{{ appt.Time }}</td>
       <td>{{ appt.sucursal.name }}</td>
       <!-- <td>{{ appt.UserId }}{{ appt.id }}</td> -->
-      <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;<button type="submit" class="btn btn-primary mb-2" (click)="borrarTurno(appt.id)">Borrar</button></td>
+      <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;
+        <button type="submit" class="btn btn-primary mb-2" (click)="borrarTurno(appt.id)">Borrar</button>
+      </td>
     </tr>
   </tbody>
 </table>

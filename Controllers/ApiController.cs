@@ -20,7 +20,7 @@ using Twilio.Types;
 
 namespace laberegisterLIH.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ApiController : ControllerBase
@@ -53,6 +53,15 @@ namespace laberegisterLIH.Controllers
             ClaimsPrincipal currentUser = this.User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             return await _repository.AddNewScheduleClientesAsync(currentUserId, data.ExamId, data.Date, data.Time, data.SucursalId);
+        }
+        
+        [HttpPost]
+        [Route("UpdateAppointment")]
+        public async Task<int> UpdateAsync([FromBody] CalendarModel data)
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return await _repository.UpdateScheduleClientesAsync(currentUserId, data.Id, data.ExamId, data.Date, data.Time, data.SucursalId);
         }
         
         [HttpGet]
@@ -90,6 +99,7 @@ namespace laberegisterLIH.Controllers
 }
 public class CalendarModel
 {
+    public string Id { get; set; }
     public string UserId { get; set; }
     public string ExamId { get; set; }
     public string Date { get; set; }

@@ -40,13 +40,18 @@ export class HomeComponent {
     this._baseUrl = baseUrl;
     this._http = http;
     this.model.hours = null;
-    this.route.queryParams.subscribe(params => {
-      this.apptid = params['id'];
-      if (this.apptid) {
-        this._isEdit = true;
-        this.getAppointmentsById();
-      }
-  });
+    this.apptid = this.route.snapshot.queryParams['id'];
+    if (this.apptid) {
+      this._isEdit = true;
+      this.getAppointmentsById();
+    }
+  //   this.route.queryParams.subscribe(params => {
+  //     this.apptid = params['id'];
+  //     if (this.apptid) {
+  //       this._isEdit = true;
+  //       this.getAppointmentsById();
+  //     }
+  // });
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
     }, error => console.error(error));
@@ -57,18 +62,33 @@ export class HomeComponent {
   sendData() {
     // tslint:disable-next-line:max-line-length
     if (confirm('Esta seguro que quiere confirmar turno?')) {
+      if (!this._isEdit) {
         // tslint:disable-next-line:max-line-length
         const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
-         Time: this.model.hours, SucursalId: this.model.sucursal };
-          this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
-            (response) => {
-              console.log(response);
-              this._show = !this._show;
-              this.getAppointmentsByUserId();
-            },
-            (error) => console.log(error)
-          );
-         }
+        Time: this.model.hours, SucursalId: this.model.sucursal };
+        this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
+          (response) => {
+            console.log(response);
+            this._show = !this._show;
+            this.getAppointmentsByUserId();
+          },
+          (error) => console.log(error)
+        );
+      } else {
+        // is Update
+        // tslint:disable-next-line:max-line-length
+        const data = {id: this.apptid, userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
+        Time: String(this.model.hours), SucursalId: this.model.sucursal };
+        this._http.post<Examen>(this._baseUrl + 'api/UpdateAppointment', data, this.options).subscribe(
+          (response) => {
+            console.log(response);
+            this._show = !this._show;
+            this.getAppointmentsByUserId();
+          },
+          (error) => console.log(error)
+        );
+      }
+    }
   }
   searchSucursal(sucursalName) {
     this.sucdata =  this.sucursales.find(s => {
@@ -116,8 +136,9 @@ export class HomeComponent {
     this._show = !this._show;
   }
   editarTurno(val) {
-    const navigationDetails: string[] = ['/turnos/id=' + val];
-    this.router.navigate(['/turnos/id=' + val]);
+    this.router.navigate([]).then((result) => {
+      window.open('/turnos?id=' + val, '_self');
+    });
   }
   borrarTurno(id) {
     if (confirm('Esta seguro que quiere borrar confirmar el turno?')) {
@@ -136,6 +157,7 @@ export class HomeComponent {
 
 
 interface Examen {
+  id: string;
   userId: string;
   examId: string;
   name: string;

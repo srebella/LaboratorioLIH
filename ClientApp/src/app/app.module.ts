@@ -36,6 +36,7 @@ import { LandingComponent } from './landing/landing.component';
     RouterModule.forRoot([
       { path: '', component: LandingComponent, pathMatch: 'full' },
       { path: 'turnos', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthorizeGuard]},
+      { path: 'turnos/:id', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthorizeGuard]},
       { path: 'counter', component: CounterComponent , canActivate: [AuthorizeGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'feedback', component: FeedbackComponent},

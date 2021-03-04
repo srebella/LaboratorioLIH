@@ -148,6 +148,48 @@ namespace laberegisterLIH.Data
                 return 0;
             }            
         }
+        public async System.Threading.Tasks.Task<int> UpdateScheduleClientesAsync(string userId, string apptid, string examId, string date, string time, string sucursalId)
+        {
+            try
+            {
+                //get appuser
+                var user = await _userManager.FindByIdAsync(userId);
+                var exam = _context.Examenes.Where(u => u.Name == examId).FirstOrDefault();
+                var sucursal = _context.Sucursales.Where(u => u.Name == sucursalId).FirstOrDefault();
+                var appointnment = _context.Appointments.Where(u => u.Id == Int32.Parse(apptid)).FirstOrDefault();
+
+                //update values
+                var dtStr = date+ " " +time+":00";
+                DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-M-d HH:mm", CultureInfo.InvariantCulture);
+                var appt = new Appointment(){
+                    User = user,
+                    Examen = exam,
+                    Date = (DateTime)dt,
+                    Sucursal = sucursal,
+                    CreatedOn = DateTime.UtcNow
+                };
+                appointnment.User = user;
+                appointnment.Examen = exam;
+                appointnment.Date = (DateTime)dt;
+                appointnment.Sucursal = sucursal;
+                //_context.Entry(appointnment).State = EntityState.Modified;
+                //save 
+               
+                if (_context.SaveChanges() > 0){
+                    //Generate QR 
+                    //var imageQR = GenerateQR();
+                    //Attach image in email
+                    SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name);
+                }
+
+                return 1;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to add new schedule {ex}");
+                return 0;
+            }            
+        }
         public bool SaveAll()
         {
             try

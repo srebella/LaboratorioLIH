@@ -16,6 +16,7 @@ namespace laberegisterLIH.Data
         Appointment GetAppointmentById(string id);
         bool DeleteAppointmentsById(string id);
         System.Threading.Tasks.Task<int> AddNewScheduleClientesAsync(string userId, string examId, string date, string time, string sucursalId);
+        System.Threading.Tasks.Task<int> UpdateScheduleClientesAsync(string userId, string apptId, string examId, string date, string time, string sucursalId);
         bool SaveAll();
     }
 }
