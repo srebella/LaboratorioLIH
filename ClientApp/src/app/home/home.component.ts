@@ -141,7 +141,7 @@ export class HomeComponent {
     });
   }
   borrarTurno(id) {
-    if (confirm('Esta seguro que quiere borrar confirmar el turno?')) {
+    if (confirm('Esta seguro que quiere borrar el turno?')) {
       this._http.get(this._baseUrl + 'api/DeleteApptById?id=' + id).subscribe(
         (response) => {
           if (response) {
