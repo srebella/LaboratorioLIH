@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { Console } from 'console';
 
 @Component({
   selector: 'app-admin',
@@ -42,7 +41,7 @@ export class AdminComponent implements OnInit {
   }
   getUsername() {
     return JSON.parse(localStorage.getItem('currentUser')).email;
-  } 
+  }
   getAppointmentsByUserId() {
     this._http.get(this._baseUrl + 'api/GetAppointments').subscribe(
       (response2) => {
