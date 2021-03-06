@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -18,6 +19,7 @@ export class AdminComponent implements OnInit {
     role: 'false'
   };
   authorizeService: any;
+  username: any;
   // tslint:disable-next-line:max-line-length
   constructor(private router: Router, private route: ActivatedRoute, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string, authorizeService: AuthorizeService) {
     this._baseUrl = baseUrl;
@@ -26,18 +28,17 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authorizeService.getUser()
-    .subscribe(data => {
-      if (data.name === 'testuser123@mailinator.com') {
+    this.authorizeService.getUser().subscribe(value => this.username = value);
+      if (this.username.name === 'testuser123@mailinator.com') {
         this.user.role = 'admin';
         this.getAppointmentsByUserId();
         this.isEdit = false;
       } else {
+        alert('Usuario no válido para acceder al panel administrador');
         this.router.navigate([]).then((result) => {
           window.open('/', '_self');
         });
       }
-    });
   }
   getUsername() {
     return JSON.parse(localStorage.getItem('currentUser')).email;

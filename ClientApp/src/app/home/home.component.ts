@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StringifyOptions } from 'querystring';
+import { map } from 'rxjs/internal/operators/map';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +28,7 @@ export class HomeComponent {
   public examdata: Examen;
   public allExams: Examen[];
   public allSucs: Sucursal[];
+  public  authorizeService: AuthorizeService;
   apptid: string;
   model: any = {};
   form: any;
@@ -35,15 +38,40 @@ export class HomeComponent {
         }),
         body: {}
     };
+  username: string;
   // tslint:disable-next-line:max-line-length
-  constructor(private router: Router, private route: ActivatedRoute, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private router: Router, private route: ActivatedRoute, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string, authorizeService: AuthorizeService) {
     this._baseUrl = baseUrl;
     this._http = http;
+    this.authorizeService = authorizeService;
     this.model.hours = null;
     this.apptid = this.route.snapshot.queryParams['id'];
     if (this.apptid) {
-      this._isEdit = true;
-      this.getAppointmentsById();
+      this.authorizeService.getUser().pipe(map(u => u && u.name)).subscribe(value => this.username = value);
+      // this.authorizeService.getUser().pipe(map(u => u && u.name)).subscribe(data => {
+        if (this.username === 'testuser123@mailinator.com') {
+          // Admin access all turnos
+          this._isEdit = true;
+          this.getAppointmentsById();
+        } else {
+          // User accessing its turnos
+          this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
+            (response2) => {
+              const userAppts = response2;
+              // tslint:disable-next-line:triple-equals
+              const hasAppt = userAppts.some(s => s.id == this.apptid );
+              if (hasAppt) {
+                this._isEdit = true;
+                this.getAppointmentsById();
+              } else {
+                alert('El turno que desea ver no le pertenece');
+                this.router.navigate([]).then((result) => {
+                  window.open('/', '_self');
+                });
+              }
+            }, error => console.error(error));
+        }
+      // });
     }
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
@@ -104,26 +132,26 @@ export class HomeComponent {
     this.getAppointmentsByUserId();
   }
 
-  getAppointmentsByUserId() {
-    this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
-      (response2) => {
-        this.appointments = response2;
-      }, error => console.error(error));
-  }
-  getAppointmentsById() {
-    this._http.get(this._baseUrl + 'api/GetAppointmentById?id=' + this.apptid).subscribe(
-      (response) => {
-        this.appointment = response;
-        this.model.examen = this.appointment.examen.name;
-        const d = new Date(this.appointment.date);
-        this.model.date = d;
-        this.model.date.year = d.getFullYear();
-        this.model.date.month = d.getMonth();
-        this.model.date.day = d.getDay();
-        this.model.hours = d.getHours();
-        this.model.sucursal = this.appointment.sucursal.name;
-      }, error => console.error(error));
-  }
+    getAppointmentsByUserId() {
+      this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
+        (response2) => {
+          this.appointments = response2;
+        }, error => console.error(error));
+    }
+    getAppointmentsById() {
+      this._http.get(this._baseUrl + 'api/GetAppointmentById?id=' + this.apptid).subscribe(
+        (response) => {
+          this.appointment = response;
+          this.model.examen = this.appointment.examen.name;
+          const d = new Date(this.appointment.date);
+          this.model.date = d;
+          this.model.date.year = d.getFullYear();
+          this.model.date.month = d.getMonth();
+          this.model.date.day = d.getDay();
+          this.model.hours = d.getHours();
+          this.model.sucursal = this.appointment.sucursal.name;
+        }, error => console.error(error));
+    }
 
   reload() {
     this._show = !this._show;
