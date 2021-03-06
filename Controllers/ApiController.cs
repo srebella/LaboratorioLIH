@@ -74,6 +74,16 @@ namespace laberegisterLIH.Controllers
         }
 
         [HttpGet]
+        [Route("GetAppointments")]
+        public IEnumerable<Appointment> GetApptAsync()
+        {
+            //ClaimsPrincipal currentUser = this.User;
+            //var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //check if user is admin or not
+            return  _repository.GetAllAppointments();
+        }
+
+        [HttpGet]
         [Route("GetAppointmentById")]
         public Appointment GetAppointmentById(string id)
         {

@@ -60,7 +60,8 @@ namespace laberegisterLIH.Data
         {
             try
             {
-                return _context.Appointments.Where(e => !e.IsDeleted).OrderBy(e => e.Date).ToList();
+                return _context.Appointments.Include(r=>r.User).Include(r=>r.Examen).Include(r=>r.Sucursal)
+                    .Where(e => !e.IsDeleted && e.User != null && e.Sucursal != null && e.User != null).OrderBy(e => e.Date).ToList();
             }
             catch (System.Exception ex)
             {
@@ -89,7 +90,7 @@ namespace laberegisterLIH.Data
             try
             {
                 var a = _context.Appointments.Include(r=>r.Examen).Include(r=>r.Sucursal)
-                    .Where(e => e.Id == Int32.Parse(id)).FirstOrDefault();
+                    .Where(e => e.Id == Int32.Parse(id) && !e.IsDeleted).FirstOrDefault();
                 return a;
             }
             catch (System.Exception ex)
@@ -283,7 +284,7 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
 
                         MailMessage message = new MailMessage();  
             message.To.Add("ing.bevi@gmail.com");// Email-ID of Receiver  
-            message.Subject = "txtSubject.Text";// Subject of Email  
+            message.Subject = "Gracias por registrar tu turno con LIH Laboratorio de Investigación Hormonal";// Subject of Email  
             message.From = new System.Net.Mail.MailAddress(_config.GetValue<string>(
                         "AppIdentitySettings:Username"));// Email-ID of Sender  
             message.IsBodyHtml = true;  
@@ -293,7 +294,7 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
             SmtpMail.Port = 587;//Port for sending the mail  
             SmtpMail.Credentials = new System.Net.NetworkCredential(_config.GetValue<string>(
                         "AppIdentitySettings:Username"), _config.GetValue<string>(
-                        "AppIdentitySettings:Password"));//username/password of network, if apply  
+                        "AppIdentitySettings:Password"));
             SmtpMail.DeliveryMethod = SmtpDeliveryMethod.Network;  
             SmtpMail.EnableSsl = true;  
             SmtpMail.ServicePoint.MaxIdleTime = 0;  

@@ -16,6 +16,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ApptUpdateComponent } from './appt-update/appt-update.component';
 import { LandingComponent } from './landing/landing.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LandingComponent } from './landing/landing.component';
     FetchDataComponent,
     FeedbackComponent,
     ApptUpdateComponent,
-    LandingComponent
+    LandingComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,6 +41,7 @@ import { LandingComponent } from './landing/landing.component';
       { path: 'turnos/:id', component: HomeComponent, pathMatch: 'full' , canActivate: [AuthorizeGuard]},
       { path: 'counter', component: CounterComponent , canActivate: [AuthorizeGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'admin', component: AdminComponent, canActivate: [AuthorizeGuard] },
       { path: 'feedback', component: FeedbackComponent},
     ]),
     NgbModule,

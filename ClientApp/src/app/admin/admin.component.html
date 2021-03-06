@@ -1,0 +1,35 @@
+<h1 >Panel Administrador</h1>
+
+<div *ngIf="!isEdit">
+    <h1>Turnos</h1>
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="appointments">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Sucursal</th>
+            <th>User</th>
+            <th>
+                <!-- <button type="button" class="btn btn-primary" ></button> -->
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appt of appointments">
+            <td>{{ appt.examen.name }}</td>
+            <td>{{ appt.date }}</td>
+            <td>{{ appt.Time }}</td>
+            <td>{{ appt.sucursal.name }}</td>
+            <td>{{ appt.user.userName }}</td>
+            <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;
+              <button type="submit" class="btn btn-primary mb-2" (click)="borrarTurno(appt.id)">Borrar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div *ngIf="isEdit">
+    <h1>Edite el Turno</h1>
+</div>

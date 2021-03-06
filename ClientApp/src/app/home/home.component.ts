@@ -45,13 +45,6 @@ export class HomeComponent {
       this._isEdit = true;
       this.getAppointmentsById();
     }
-  //   this.route.queryParams.subscribe(params => {
-  //     this.apptid = params['id'];
-  //     if (this.apptid) {
-  //       this._isEdit = true;
-  //       this.getAppointmentsById();
-  //     }
-  // });
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
     }, error => console.error(error));
