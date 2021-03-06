@@ -56,6 +56,13 @@ namespace laberegisterLIH.Controllers
         }
         
         [HttpPost]
+        [Route("SetFeedback")]
+        public bool SetFBAsync([FromBody] FeedbackModel data)
+        {
+            return _repository.SaveFeedback(data.Feedback, data.ApptId);
+        }
+        
+        [HttpPost]
         [Route("UpdateAppointment")]
         public async Task<int> UpdateAsync([FromBody] CalendarModel data)
         {
@@ -115,4 +122,10 @@ public class CalendarModel
     public string Date { get; set; }
     public string Time { get; set; }
     public string SucursalId { get; set; }
+}
+public class FeedbackModel
+{
+    public string Id { get; set; }
+    public string Feedback { get; set; }
+    public string ApptId { get; set; }
 }

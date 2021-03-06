@@ -24,5 +24,6 @@ namespace laberegisterLIH.Data
         public DbSet<Examen> Examenes { get; set; }
         public DbSet<Sucursal> Sucursales { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
     }
 }

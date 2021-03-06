@@ -42,7 +42,7 @@ import { AdminComponent } from './admin/admin.component';
       { path: 'counter', component: CounterComponent , canActivate: [AuthorizeGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AuthorizeGuard] },
-      { path: 'feedback', component: FeedbackComponent},
+      { path: 'feedback/:id', component: FeedbackComponent},
     ]),
     NgbModule,
     ReactiveFormsModule

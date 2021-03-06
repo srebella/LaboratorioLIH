@@ -48,7 +48,6 @@ export class HomeComponent {
     this.apptid = this.route.snapshot.queryParams['id'];
     if (this.apptid) {
       this.authorizeService.getUser().pipe(map(u => u && u.name)).subscribe(value => this.username = value);
-      // this.authorizeService.getUser().pipe(map(u => u && u.name)).subscribe(data => {
         if (this.username === 'testuser123@mailinator.com') {
           // Admin access all turnos
           this._isEdit = true;
@@ -71,7 +70,6 @@ export class HomeComponent {
               }
             }, error => console.error(error));
         }
-      // });
     }
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;

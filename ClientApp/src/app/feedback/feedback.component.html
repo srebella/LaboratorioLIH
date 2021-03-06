@@ -1,1 +1,23 @@
-<p>component works!</p>
+
+<form #newAppointmentForm="ngForm" name="form" (ngSubmit)="sendData()">
+
+    <!-- </fieldset>   -->
+    <div class="form-group">
+
+        <h1>Encuesta</h1>
+        <p>
+            Por favor, permítenos conocer tu opinión sobre nuestro servicio, esto nos ayudará a seguir mejorando para ofrecerte una mejor experiencia.
+        </p>
+    </div>
+    <div class="form-group">
+      <!-- <label for="hora" class="col-sm-2 col-form-label">Por favor, permítenos conocer tu opinión sobre nuestro servicio, 
+          esto nos ayudará a seguir mejorando para ofrecerte una mejor experiencia.</label> -->
+       <textarea class="form-control" id="feedback" [(ngModel)]="model.feedback" #feedback="ngModel" name="feedback" rows="3" style="width: 75%;"></textarea>
+
+    </div>
+    <div class="form-group">
+      <div class="col-sm-3">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+    </div>
+  </form>

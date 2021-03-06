@@ -152,6 +152,32 @@ namespace laberegisterLIH.Data
                 return 0;
             }            
         }
+        public bool SaveFeedback(string feedback, string apptid)
+        {
+            try
+            {
+                
+                var appointment = _context.Appointments.Where(u => u.Id == Int32.Parse(apptid) ).FirstOrDefault();
+
+                //update values
+                var fb = new Feedback(){
+                    Appointment = appointment,
+                    Value = feedback
+                };
+
+                //save 
+                _context.Add(fb);
+                if (_context.SaveChanges() > 0){
+                    return true;
+                }
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to add new schedule {ex}");
+                return false;
+            }            
+        }
         public async System.Threading.Tasks.Task<int> UpdateScheduleClientesAsync(string userId, string apptid, string examId, string date, string time, string sucursalId)
         {
             try
