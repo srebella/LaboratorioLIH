@@ -234,7 +234,9 @@ namespace laberegisterLIH.Data
             }            
         }
 
-        
+        public async System.Threading.Tasks.Task<ApplicationUser> GetUserDataAsync(string id){
+            return await _userManager.FindByIdAsync(id).ConfigureAwait(false);
+        }
         static string BytesToString(byte[] bytes)
         {
             using (MemoryStream stream = new MemoryStream(bytes))

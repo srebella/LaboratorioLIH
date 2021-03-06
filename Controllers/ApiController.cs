@@ -81,6 +81,15 @@ namespace laberegisterLIH.Controllers
         }
 
         [HttpGet]
+        [Route("GetUserById")]
+        public async Task<ApplicationUser> GetUserAsync()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return await _repository.GetUserDataAsync(currentUserId);
+        }
+
+        [HttpGet]
         [Route("GetAppointments")]
         public IEnumerable<Appointment> GetApptAsync()
         {

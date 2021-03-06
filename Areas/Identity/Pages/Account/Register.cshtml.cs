@@ -55,7 +55,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
             public string Name { get; set; }
             [Required]
             [Display(Name = "Apellido")]
-            public string Surname { get; set; }  
+            public string LastName { get; set; }  
 
             [Required]
             [EmailAddress]
@@ -85,7 +85,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, Surname = Input.LastName };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
