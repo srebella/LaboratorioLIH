@@ -50,26 +50,27 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "El nombre es requerido")]
             [Display(Name = "Nombre")]
             [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string Name { get; set; }
-            [Required]
+           [Required(ErrorMessage = "El apellido es requerido")]
             [Display(Name = "Apellido")]
             [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string LastName { get; set; }  
 
-            [Required]
+            [Required(ErrorMessage = "El email es requerido")]
             [EmailAddress]
             [Display(Name = "Email")]
             [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
             public string Email { get; set; }
-            [Required]
+            [Required(ErrorMessage = "La contraseña es requerida")]
             [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
+            [Required(ErrorMessage = "La confirmación de contraseña es requerida")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
             [Compare("Password", ErrorMessage = "La contraseña y la confirmación deben coincidir")]
