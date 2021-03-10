@@ -52,14 +52,17 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
         {
             [Required]
             [Display(Name = "Nombre")]
+                        [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string Name { get; set; }
             [Required]
             [Display(Name = "Apellido")]
+                        [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string LastName { get; set; }  
 
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
+                        [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
             public string Email { get; set; }
             [Required]
             [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]

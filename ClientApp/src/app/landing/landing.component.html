@@ -1,18 +1,18 @@
 
-<h1 *ngIf="logged">Hola {{user.name}} Bienvenido a QWorks + LIH</h1>
-<h1 *ngIf="!logged">Hola Bienvenido a QWorks + LIH</h1>
+<h1 *ngIf="user">{{user.name}} Bienvenido a LIH</h1>
+<h1 *ngIf="!user">Bienvenido a LIH</h1>
 
 <div class="row">
     <div class="col-md-8">
-       
-            <h4>Asignación de turnos para exámenes en laboratorio</h4>
-            <hr />
-            <div *ngIf="logged">
-            <p>Para elegir un turno por favor acceda a la página de <a href="/turnos">turnos</a></p>
-                </div>
-            <div *ngIf="!logged">
-                <p >Para elegir un turno por favor <a href="/authentication/register">regístrese</a> o <a href="/authentication/login">inicie sesión</a></p>
+    
+        <h4>Asignación de turnos para exámenes en laboratorio</h4>
+        <hr />
+        <div *ngIf="user">
+        <h4>Para elegir un turno por favor acceda a la página de <a href="/turnos">turnos</a></h4>
             </div>
-      
+        <div *ngIf="!user">
+            <h4>Para elegir un turno por favor <a href="/authentication/register">regístrese</a> o <a href="/authentication/login">inicie sesión</a></h4>
+        </div>
+    
     </div>
 </div>

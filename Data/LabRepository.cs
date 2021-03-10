@@ -85,6 +85,20 @@ namespace laberegisterLIH.Data
             }
         }
         
+        public int CountAppointmentsByUser(string userId)
+        {
+            try
+            {
+                var a = _context.Appointments.Count(e => e.User.Id == userId && !e.IsDeleted);
+                return a;
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Failed to get all appointment {ex}");
+                return 0;
+            }
+        }
+        
         public Appointment GetAppointmentById(string id)
         {
             try

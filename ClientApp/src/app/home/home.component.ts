@@ -48,7 +48,7 @@ export class HomeComponent {
     this.apptid = this.route.snapshot.queryParams['id'];
     if (this.apptid) {
       this.authorizeService.getUser().pipe(map(u => u && u.name)).subscribe(value => this.username = value);
-        if (this.username === 'testuser123@mailinator.com') {
+        if (this.username === 'testuser654@mailinator.com') {
           // Admin access all turnos
           this._isEdit = true;
           this.getAppointmentsById();
@@ -58,7 +58,7 @@ export class HomeComponent {
             (response2) => {
               const userAppts = response2;
               // tslint:disable-next-line:triple-equals
-              const hasAppt = userAppts.some(s => s.id == this.apptid );
+              const hasAppt = userAppts.some(s => s.id == this.apptid);
               if (hasAppt) {
                 this._isEdit = true;
                 this.getAppointmentsById();
@@ -70,6 +70,15 @@ export class HomeComponent {
               }
             }, error => console.error(error));
         }
+    } else {
+      this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
+        (response2) => {
+          const userAppts2 = response2;
+          if (userAppts2) {
+            this._show = true;
+            this.getAppointmentsByUserId();
+          }
+        }, error => console.error(error));
     }
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;

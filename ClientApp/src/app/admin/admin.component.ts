@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.authorizeService.getUser().subscribe(value => this.username = value);
-      if (this.username.name === 'testuser123@mailinator.com') {
+      if (this.username.name === 'testuser654@mailinator.com') {
         this.user.role = 'admin';
         this.getAppointmentsByUserId();
         this.isEdit = false;

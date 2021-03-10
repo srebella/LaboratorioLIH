@@ -81,6 +81,15 @@ namespace laberegisterLIH.Controllers
         }
 
         [HttpGet]
+        [Route("CountAppointmentByUserId")]
+        public int CountAsync()
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return  _repository.CountAppointmentsByUser(currentUserId);
+        }
+
+        [HttpGet]
         [Route("GetUserById")]
         public async Task<ApplicationUser> GetUserAsync()
         {

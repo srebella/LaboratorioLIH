@@ -13,6 +13,7 @@ namespace laberegisterLIH.Data
         public IEnumerable<Sucursal> GetAllSucursales();
         public IEnumerable<Appointment> GetAllAppointments();
         IEnumerable<Appointment> GetAppointmentsByUser(string userId);
+        int CountAppointmentsByUser(string userId);
         Appointment GetAppointmentById(string id);
         bool DeleteAppointmentsById(string id);
         bool SaveFeedback(string feedback, string apptid);
