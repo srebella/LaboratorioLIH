@@ -34,9 +34,15 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "Nombre")]
+            public string Nombre { get; set; }
+        
             [Phone]
             [Display(Name = "Número de teléfono")]
             public string PhoneNumber { get; set; }
+        
+            [Display(Name = "Apellido")]
+            public string Apellido { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -48,7 +54,9 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Apellido = user.Surname,
+                Nombre = user.Name
             };
         }
 
@@ -84,13 +92,27 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Error inesperado al cambiar su número de teléfono";
                     return RedirectToPage();
                 }
             }
-
+            if (Input.Nombre != user.Name)
+            {
+                user.Name = Input.Nombre;
+            }
+            if (Input.Apellido != user.Surname)
+            {
+                user.Surname = Input.Apellido;
+            }
+            
+            var setNamesResult = await _userManager.UpdateAsync(user);
+             if (!setNamesResult.Succeeded)
+            {
+                StatusMessage = "Error inesperado al cambiar su nombre o apellido";
+                return RedirectToPage();
+            }
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Su perfil ha sido actualizado";
             return RedirectToPage();
         }
     }

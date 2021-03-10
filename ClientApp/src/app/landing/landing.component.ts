@@ -37,9 +37,9 @@ export class LandingComponent implements OnInit {
                     window.open('/turnos', '_self');
                   });
                 } else {
-                  this.router.navigate([]).then((result) => {
-                    window.open('/', '_self');
-                  });
+                  // this.router.navigate([]).then((result) => {
+                  //   window.open('/', '_self');
+                  // });
                 }
               }, error => console.error(error));
           } else {

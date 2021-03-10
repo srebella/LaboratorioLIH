@@ -31,8 +31,8 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender
-            , IConfiguration config)
+            IEmailSender emailSender,
+            IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -52,17 +52,17 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
         {
             [Required]
             [Display(Name = "Nombre")]
-                        [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
+            [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string Name { get; set; }
             [Required]
             [Display(Name = "Apellido")]
-                        [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
+            [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string LastName { get; set; }  
 
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
-                        [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
             public string Email { get; set; }
             [Required]
             [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
@@ -95,15 +95,15 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                     SendEmail(Input.Email);
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -111,7 +111,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
                     }
                     else
                     {
-
+                        await _userManager.ConfirmEmailAsync(user, code);
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }

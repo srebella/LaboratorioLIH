@@ -74,9 +74,11 @@ export class HomeComponent {
       this._http.get<Appt[]>(this._baseUrl + 'api/GetAppointmentByUserId').subscribe(
         (response2) => {
           const userAppts2 = response2;
-          if (userAppts2) {
+          if (userAppts2.length > 0) {
             this._show = true;
             this.getAppointmentsByUserId();
+          } else {
+            this._show = false;
           }
         }, error => console.error(error));
     }
