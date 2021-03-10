@@ -91,7 +91,7 @@ export class HomeComponent {
   }
   sendData() {
     // tslint:disable-next-line:max-line-length
-    if (confirm('Esta seguro que quiere confirmar turno?')) {
+    // if (confirm('Esta seguro que quiere confirmar turno?')) {
       if (!this._isEdit) {
         // tslint:disable-next-line:max-line-length
         const data = {userId: '', examId: this.model.examen, Date: this.model.date.year + '-' + this.model.date.month + '-' + this.model.date.day,
@@ -118,7 +118,7 @@ export class HomeComponent {
           (error) => console.log(error)
         );
       }
-    }
+    // }
   }
   searchSucursal(sucursalName) {
     this.sucdata =  this.sucursales.find(s => {
@@ -171,7 +171,7 @@ export class HomeComponent {
     });
   }
   borrarTurno(id) {
-    if (confirm('Esta seguro que quiere borrar el turno?')) {
+    // if (confirm('Esta seguro que quiere borrar el turno?')) {
       this._http.get(this._baseUrl + 'api/DeleteApptById?id=' + id).subscribe(
         (response) => {
           if (response) {
@@ -179,7 +179,7 @@ export class HomeComponent {
           }
           return response;
         }, error => console.error(error));
-    }
+    // }
   }
 }
 

@@ -71,18 +71,84 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-3">
-        <button type="submit" class="btn btn-primary" *ngIf="!_isEdit">Confirmar</button>
-        <button type="submit" class="btn btn-primary" *ngIf="_isEdit">Guardar cambios</button>
+        <button type="button" class="btn btn-primary" *ngIf="!_isEdit" data-toggle="modal" data-target="#exampleModalCenter">Confirmar</button>
+        <button type="button" class="btn btn-primary" *ngIf="_isEdit" data-toggle="modal" data-target="#exampleModalCenter">Guardar cambios</button>
+      </div>
+      
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Confirmar</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Esta seguro que quiere confirmar el turno?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-backdrop="false" data-toggle="modal" data-dismiss="modal"  (click)="sendData()">Si</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>              
+            </div>
+          </div>  
+        </div>
       </div>
       <div class="col-sm-3">
         <button type="button" class="btn btn-primary" (click)="verTurnos()">Ver turnos</button>
       </div>
     </div>
   </form>
-  <div *ngIf="_examSelected" class="col-sm-8">
+  <!-- <div *ngIf="_examSelected" class="col-sm-8">
     <legend class="col-form-label">Requerimientos {{examdata.requirements}}</legend>
     <legend class="col-form-label">Protocolos {{examdata.protocols}}</legend>
-  </div>  
+  </div>   -->
+  <div id="accordion" *ngIf="_examSelected">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Requerimientos y Protocolos Examen {{examdata.name}}
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <p>Requerimientos {{examdata.requirements}}</p>
+          <p>Protocolos {{examdata.protocols}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Collapsible Group Item #2
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Collapsible Group Item #3
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+    </div> -->
+  </div>
 </div>
 
 
@@ -94,9 +160,11 @@
   <thead>
     <tr>
       <th>Nombre</th>
+      <th></th>
       <th>Fecha</th>
       <th>Hora</th>
       <th>Sucursal</th>
+      <th></th>
       <!-- <th>User</th> -->
       <th><button type="button" class="btn btn-primary" (click)="reload()">Volver a Registro</button></th>
     </tr>
@@ -104,14 +172,76 @@
   <tbody>
     <tr *ngFor="let appt of appointments">
       <td>{{ appt.examen.name }}</td>
-      <td>{{ appt.date }}</td>
-      <td>{{ appt.Time }}</td>
-      <td>{{ appt.sucursal.name }}</td>
+        <td>  <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter3">Requerimientos</button></td>
+      <td>{{ appt.date | date:' dd/MM/yyyy' }}</td>
+      <td>{{ appt.date | date:'shortTime' }}</td>
+      <td>{{ appt.sucursal.name }} </td>
+      <td> <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter4">Dirección</button>
+      </td>
       <!-- <td>{{ appt.UserId }}{{ appt.id }}</td> -->
       <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;
-        <button type="submit" class="btn btn-primary mb-2" (click)="borrarTurno(appt.id)">Borrar</button>
+        <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter2">Borrar</button>&nbsp;
       </td>
+      <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Confirmar</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Esta seguro que quiere borrar el turno?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-backdrop="false" data-toggle="modal" data-dismiss="modal" (click)="borrarTurno(appt.id)">Si</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>              
+            </div>
+          </div>  
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Requerimientos y protocolos {{ appt.examen.name }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Requerimientos {{ appt.examen.requirements }}</p> 
+              <p>Protocolos {{ appt.examen.protocols }}</p> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModalCenter4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Dirección {{ appt.sucursal.name }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>{{ appt.sucursal.address }}</p> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </tr>
   </tbody>
 </table>
 </div>
+<script>
+
+</script>
