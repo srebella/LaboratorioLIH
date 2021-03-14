@@ -67,17 +67,22 @@ namespace laberegisterLIH.Controllers
         public async Task<int> UpdateAsync([FromBody] CalendarModel data)
         {
             ClaimsPrincipal currentUser = this.User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return await _repository.UpdateScheduleClientesAsync(currentUserId, data.Id, data.ExamId, data.Date, data.Time, data.SucursalId);
+            if (ClaimTypes.NameIdentifier != null) {
+                var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return await _repository.UpdateScheduleClientesAsync(currentUserId, data.Id, data.ExamId, data.Date, data.Time, data.SucursalId);
+            }           
         }
         
         [HttpGet]
         [Route("GetAppointmentByUserId")]
         public IEnumerable<Appointment> GetAsync()
         {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return  _repository.GetAppointmentsByUser(currentUserId);
+            ClaimsPrincipal currentUser = this.User != null? this.User:null;
+            if (currentUser != null && ClaimTypes.NameIdentifier != null) {
+                var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return  _repository.GetAppointmentsByUser(currentUserId);
+            }
+            return null;
         }
 
         [HttpGet]
@@ -94,8 +99,10 @@ namespace laberegisterLIH.Controllers
         public async Task<ApplicationUser> GetUserAsync()
         {
             ClaimsPrincipal currentUser = this.User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return await _repository.GetUserDataAsync(currentUserId);
+            if (ClaimTypes.NameIdentifier != null) {                
+                var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;                
+                return await _repository.GetUserDataAsync(currentUserId);
+            }
         }
 
         [HttpGet]

@@ -320,12 +320,12 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
         private void SendEmail(string EmailTo, string date, string hour, string sucursal, string examen, Byte[] qrImageStr = null){
             try
             {
-                var mailMsg = new GmailEmailSender(new GmailEmailSettings(_config.GetValue<string>(
-                        "AppIdentitySettings:Username"), _config.GetValue<string>(
-                        "AppIdentitySettings:Password")));
+                // var mailMsg = new GmailEmailSender(new GmailEmailSettings(_config.GetValue<string>(
+                //         "AppIdentitySettings:Username"), _config.GetValue<string>(
+                //         "AppIdentitySettings:Password")));
 
                         MailMessage message = new MailMessage();  
-            message.To.Add("ing.bevi@gmail.com");// Email-ID of Receiver  
+            message.To.Add(EmailTo);// Email-ID of Receiver  
             message.Subject = "Gracias por registrar tu turno con LIH Laboratorio de Investigación Hormonal";// Subject of Email  
             message.From = new System.Net.Mail.MailAddress(_config.GetValue<string>(
                         "AppIdentitySettings:Username"));// Email-ID of Sender  
@@ -343,7 +343,8 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
             SmtpMail.ServicePoint.SetTcpKeepAlive(true, 2000, 2000);  
             message.Priority = MailPriority.High;  
             SmtpMail.Send(message);//Smtpclient to send the mail message  
-              
+            
+               Console.WriteLine("Sent!");
 
                 //         var linkedResource = new LinkedResource(@"./ClientApp/src/assets/LogoNuevo.png", MediaTypeNames.Image.Jpeg);
 

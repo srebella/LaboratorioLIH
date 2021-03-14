@@ -34,13 +34,13 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "La contraseña actual es requerida")]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña actual")]
             public string OldPassword { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
+            [Required(ErrorMessage = "La nueva contraseña es requerida")]
+            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Nueva contraseña")]
             public string NewPassword { get; set; }
@@ -86,7 +86,14 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
             {
                 foreach (var error in changePasswordResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Description.Contains("Passwords must have")){                        
+                        ModelState.AddModelError(string.Empty, "La nueva contraseña debe tener al menos un caracter no alfanumérico");
+                    }
+                    // ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Description.Contains("Incorrect password")){                        
+                        ModelState.AddModelError(string.Empty, "La contraseña actual no es válida");
+                    }
+                    // ModelState.AddModelError(string.Empty, error.Description);
                 }
                 return Page();
             }

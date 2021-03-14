@@ -44,7 +44,7 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "El email es requerido")]
             [EmailAddress]
             [Display(Name = "Nuevo email")]
             public string NewEmail { get; set; }

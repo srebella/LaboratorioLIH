@@ -113,7 +113,7 @@
         </h5>
       </div>
   
-      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
           <p>Requerimientos {{examdata.requirements}}</p>
           <p>Protocolos {{examdata.protocols}}</p>
@@ -166,7 +166,7 @@
       <th>Sucursal</th>
       <th></th>
       <!-- <th>User</th> -->
-      <th><button type="button" class="btn btn-primary" (click)="reload()">Volver a Registro</button></th>
+      <th><button type="button" class="btn btn-primary" (click)="reload()">Nuevo Turno</button></th>
     </tr>
   </thead>
   <tbody>
@@ -180,9 +180,9 @@
       </td>
       <!-- <td>{{ appt.UserId }}{{ appt.id }}</td> -->
       <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;
-        <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter2">Borrar</button>&nbsp;
+        <button type="submit" class="btn btn-primary mb-2" data-toggle="modal"  [attr.data-target]='appt.id' >Borrar</button>{{ appt.id }}&nbsp;
       </td>
-      <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal fade" [attr.id]="appt.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -196,6 +196,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-backdrop="false" data-toggle="modal" data-dismiss="modal" (click)="borrarTurno(appt.id)">Si</button>
+              {{ appt.id }}
               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>              
             </div>
           </div>  
