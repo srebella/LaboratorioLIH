@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StringifyOptions } from 'querystring';
 import { map } from 'rxjs/internal/operators/map';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
@@ -40,7 +40,7 @@ export class HomeComponent {
     };
   username: string;
   // tslint:disable-next-line:max-line-length
-  constructor(private router: Router, private route: ActivatedRoute, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string, authorizeService: AuthorizeService) {
+  constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string, authorizeService: AuthorizeService) {
     this._baseUrl = baseUrl;
     this._http = http;
     this.authorizeService = authorizeService;
@@ -155,8 +155,8 @@ export class HomeComponent {
           const d = new Date(this.appointment.date);
           this.model.date = d;
           this.model.date.year = d.getFullYear();
-          this.model.date.month = d.getMonth();
-          this.model.date.day = d.getDay();
+          this.model.date.month = d.getMonth() + 1;
+          this.model.date.day = d.getDate();
           this.model.hours = d.getHours();
           this.model.sucursal = this.appointment.sucursal.name;
         }, error => console.error(error));
@@ -181,6 +181,26 @@ export class HomeComponent {
         }, error => console.error(error));
     // }
   }
+  openModal(content, videoId) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      // this.closeResult = `Closed with: ${result}`;
+      if (result === 'yes') {
+        this.borrarTurno(videoId);
+      }
+    }, (reason) => {
+      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  // private getDismissReason(reason: any): string {
+  //   if (reason === ModalDismissReasons.ESC) {
+  //     return 'by pressing ESC';
+  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+  //     return 'by clicking on a backdrop';
+  //   } else {
+  //     return `with: ${reason}`;
+  //   }
+  // }
 }
 
 

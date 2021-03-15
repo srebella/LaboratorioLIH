@@ -100,8 +100,8 @@ namespace laberegisterLIH.Controllers
         {
             ClaimsPrincipal currentUser = this.User;
             if (ClaimTypes.NameIdentifier != null) {                
-                var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;                
-                return await _repository.GetUserDataAsync(currentUserId);
+                var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier) != null ? currentUser.FindFirst(ClaimTypes.NameIdentifier).Value : null;                
+                return currentUserId != null ? await _repository.GetUserDataAsync(currentUserId) : null;
             }
         }
 

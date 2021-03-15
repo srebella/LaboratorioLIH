@@ -222,9 +222,9 @@ namespace laberegisterLIH.Data
                
                 if (_context.SaveChanges() > 0){
                     //Generate QR 
-                    //var imageQR = GenerateQR(apptid);
+                    var imageByteQR = GenerateQR(Int32.Parse(apptid));
                     //Attach image in email
-                    SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name);
+                    SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name, imageByteQR);
                 }
 
                 return 1;
