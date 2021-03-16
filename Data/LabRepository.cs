@@ -34,7 +34,12 @@ namespace laberegisterLIH.Data
         {
             try
             {
-                return _context.Examenes.OrderBy(e => e.Name).ToList();
+                var examenes = _context.Examenes.OrderBy(e => e.Name).ToList();
+                foreach (var item in examenes)
+                {
+                    item.Requirements.Replace("*", "\n -");
+                }
+                return examenes;
             }
             catch (System.Exception ex)
             {
@@ -158,7 +163,7 @@ namespace laberegisterLIH.Data
                     //Attach image in email
                     SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name, imageByteQR);
                 }
-                return _context.SaveChanges();
+                return 1;
             }
             catch (System.Exception ex)
             {
@@ -212,22 +217,26 @@ namespace laberegisterLIH.Data
                 //     Sucursal = sucursal,
                 //     CreatedOn = DateTime.UtcNow
                 // };
-                appointnment.User = user;
-                appointnment.Examen = exam;
-                appointnment.Date = (DateTime)dt;
-                appointnment.Sucursal = sucursal;
-                 appointnment.CreatedOn = DateTime.UtcNow;
+                if (appointnment.User != user || appointnment.Examen != exam || appointnment.Date != (DateTime)dt ||  appointnment.Sucursal != sucursal){
+                    appointnment.User = appointnment.User != user ? user : appointnment.User;
+                    appointnment.Examen = appointnment.Examen != exam ? exam : appointnment.Examen;
+                    appointnment.Date = appointnment.Date != (DateTime)dt ? (DateTime)dt : appointnment.Date;
+                    appointnment.Sucursal = appointnment.Sucursal != sucursal ? sucursal : appointnment.Sucursal;
+                    appointnment.CreatedOn = DateTime.UtcNow;
+                    
+                    if (_context.SaveChanges() > 0){
+                        //Generate QR 
+                        var imageByteQR = GenerateQR(Int32.Parse(apptid));
+                        //Attach image in email
+                        SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name, imageByteQR);
+                    }
+
+                    return 1;
+                }
+                
                 //_context.Entry(appointnment).State = EntityState.Modified;
                 //save 
-               
-                if (_context.SaveChanges() > 0){
-                    //Generate QR 
-                    var imageByteQR = GenerateQR(Int32.Parse(apptid));
-                    //Attach image in email
-                    SendEmail(user.UserName, dt.ToString(), time, sucursal.Name + " " + sucursal.Address, exam.Name, imageByteQR);
-                }
-
-                return 1;
+                return 0;
             }
             catch (System.Exception ex)
             {
@@ -273,12 +282,18 @@ namespace laberegisterLIH.Data
         }
 private AlternateView Mail_Body(string hour, string date, string sucursal, string examen, byte[] qrimage)  
     {  
+        try
+        {
+            
         string path = @"./ClientApp/src/assets/LogoNuevo.png";  
+           if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development"){
+                path = @"./ClientApp/dist/assets/LogoNuevo.png";  
+           }
         LinkedResource Img = new LinkedResource(path, MediaTypeNames.Image.Jpeg);  
         Img.ContentId = "MyImage";  
-        System.IO.MemoryStream streamBitmap = new System.IO.MemoryStream(qrimage);
-        var imageToInline = new LinkedResource(streamBitmap , MediaTypeNames.Image.Jpeg);
-        imageToInline.ContentId = "MyImage2";
+         System.IO.MemoryStream streamBitmap = new System.IO.MemoryStream(qrimage);
+         var imageToInline = new LinkedResource(streamBitmap , MediaTypeNames.Image.Jpeg);
+         imageToInline.ContentId = "MyImage2";
 
 
         string str = @"  
@@ -300,7 +315,7 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
             </p>
             <p>Presente este QR al entrar al laboratorio:</p>
             <p>
-                <img src=cid:MyImage2  id='img' alt='' width='200px' height='200px' />
+                
             </p>
             <p>
             Correo enviado el " + DateTime.UtcNow + @"
@@ -312,9 +327,17 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
         AlternateView AV =   
         AlternateView.CreateAlternateViewFromString(str, null, MediaTypeNames.Text.Html);  
         AV.LinkedResources.Add(imageToInline);
-        //mail.AlternateViews.Add(body);
+       
         AV.LinkedResources.Add(Img);  
-        return AV;  
+        return AV;
+        }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to send emails at QR {ex}");
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+  
     }  
 
         private void SendEmail(string EmailTo, string date, string hour, string sucursal, string examen, Byte[] qrImageStr = null){
@@ -420,6 +443,7 @@ private AlternateView Mail_Body(string hour, string date, string sucursal, strin
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Failed to send emails {ex}");
                 Console.WriteLine(ex.Message);
             }
 

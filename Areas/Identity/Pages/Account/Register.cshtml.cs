@@ -54,13 +54,13 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
             [Display(Name = "Nombre")]
             [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string Name { get; set; }
-           [Required(ErrorMessage = "El apellido es requerido")]
+            [Required(ErrorMessage = "El apellido es requerido")]
             [Display(Name = "Apellido")]
             [StringLength(100, ErrorMessage = "El nombre es requerido", MinimumLength = 1)]
             public string LastName { get; set; }  
 
             [Required(ErrorMessage = "El email es requerido")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "El email no es válido")]
             [Display(Name = "Email")]
             [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
             public string Email { get; set; }
@@ -136,11 +136,10 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
 
                 var message = EmailMessageBuilder
                                     .Init()
-                                    .AddSubject("Gracias por registrar tu turno con LIH Laboratorio de Investigación Hormonal")
+                                    .AddSubject("Gracias por registrarse con LIH Laboratorio de Investigación Hormonal")
                                     .AddFrom("qworks2021@gmail.com")
                                     .AddBody(@"<p></p>
-                                Gracias por registrarse con nosotros
-                                </p>
+                                Gracias por registrarse con nosotros                                </p>
                                 <p>Por favor inicie sesión ingresando <a href='https://qworkslablih.azurewebsites.net/Identity/Account/Login'>aqui</a>
                                 </p>
                                 <p>

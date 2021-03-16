@@ -39,6 +39,7 @@ export class HomeComponent {
         body: {}
     };
   username: string;
+  _isAdmin: boolean;
   // tslint:disable-next-line:max-line-length
   constructor(private modalService: NgbModal, private router: Router, private route: ActivatedRoute, private calendar: NgbCalendar, http: HttpClient, @Inject('BASE_URL') baseUrl: string, authorizeService: AuthorizeService) {
     this._baseUrl = baseUrl;
@@ -51,6 +52,7 @@ export class HomeComponent {
         if (this.username === 'testuser654@mailinator.com') {
           // Admin access all turnos
           this._isEdit = true;
+          this._isAdmin = true;
           this.getAppointmentsById();
         } else {
           // User accessing its turnos
@@ -84,6 +86,9 @@ export class HomeComponent {
     }
     http.get<Examen[]>(baseUrl + 'api/examenes').subscribe(result => {
       this.examenes = result;
+      this.examenes.forEach(element => {
+        element.requirements = element.requirements + element.protocols;
+      });
     }, error => console.error(error));
     http.get<Sucursal[]>(baseUrl + 'api/GetSucursales').subscribe(result => {
       this.sucursales = result;
@@ -99,8 +104,17 @@ export class HomeComponent {
         this._http.post<Examen>(this._baseUrl + 'api/SetAppointment', data, this.options).subscribe(
           (response) => {
             console.log(response);
-            this._show = !this._show;
-            this.getAppointmentsByUserId();
+            // this.getAppointmentsByUserId();
+            if (this._isAdmin) {
+              this.router.navigate([]).then((result) => {
+                window.open('/admin', '_self');
+              });
+            } else {
+              this.router.navigate([]).then((result) => {
+                this._show = !this._show;
+                window.open('/turnos', '_self');
+              });
+            }
           },
           (error) => console.log(error)
         );
@@ -112,8 +126,17 @@ export class HomeComponent {
         this._http.post<Examen>(this._baseUrl + 'api/UpdateAppointment', data, this.options).subscribe(
           (response) => {
             console.log(response);
-            this._show = !this._show;
-            this.getAppointmentsByUserId();
+            // this.getAppointmentsByUserId();
+            if (this._isAdmin) {
+              this.router.navigate([]).then((result) => {
+                window.open('/admin', '_self');
+              });
+            } else {
+              this._show = !this._show;
+              this.router.navigate([]).then((result) => {
+                window.open('/turnos', '_self');
+              });
+            }
           },
           (error) => console.log(error)
         );
@@ -137,8 +160,17 @@ export class HomeComponent {
    }
   }
   verTurnos() {
-    this._show = !this._show;
-    this.getAppointmentsByUserId();
+    // this.getAppointmentsByUserId();
+    if (this._isAdmin) {
+      this.router.navigate([]).then((result) => {
+        window.open('/admin', '_self');
+      });
+    } else {
+      this._show = !this._show;
+      this.router.navigate([]).then((result) => {
+        window.open('/turnos', '_self');
+      });
+    }
   }
 
     getAppointmentsByUserId() {
@@ -192,6 +224,10 @@ export class HomeComponent {
     });
   }
 
+  checkModel() {
+    // tslint:disable-next-line:max-line-length
+    return this.model.examen === undefined || this.model.sucursal === undefined || this.model.date === undefined || this.model.hours === undefined;
+  }
   // private getDismissReason(reason: any): string {
   //   if (reason === ModalDismissReasons.ESC) {
   //     return 'by pressing ESC';

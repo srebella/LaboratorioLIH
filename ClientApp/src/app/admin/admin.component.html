@@ -17,14 +17,87 @@
         </thead>
         <tbody>
           <tr *ngFor="let appt of appointments">
-            <td>{{ appt.examen.name }}</td>
-            <td>{{ appt.date }}</td>
-            <td>{{ appt.Time }}</td>
-            <td>{{ appt.sucursal.name }}</td>
-            <td>{{ appt.user.userName }}</td>
-            <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;
-              <button type="submit" class="btn btn-primary mb-2" (click)="borrarTurno(appt.id)">Borrar</button>
+            <td>{{ appt.examen.name }}&nbsp; <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter3">Requerimientos</button></td>
+            <td>{{ appt.date | date:' dd/MM/yyyy' }}</td>
+            <td>{{ appt.date | date:'shortTime' }}</td>
+            <td>{{ appt.sucursal.name }} &nbsp;<button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter4">Dirección</button>
             </td>
+            <!-- <td>{{ appt.UserId }}{{ appt.id }}</td> -->
+            <td><button type="submit" class="btn btn-primary mb-2" (click)="editarTurno(appt.id)">Editar</button>&nbsp;
+              <button type="submit" class="btn btn-primary mb-2"  (click)="openModal(content, appt.id)" >Borrar</button>&nbsp;
+            </td>
+            <!-- <div class="modal fade" #editProfileModal tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Esta seguro que quiere borrar el turno?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Si</button>
+                    {{ appt.id }}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>              
+                  </div>
+                </div>  
+              </div>
+            </div> -->
+            <ng-template class="modal fade" #content let-c="close" let-d="dismiss">    
+              <div class="modal-header">    
+                  <h4 class="modal-title" id="modal-basic-title">Confirmación</h4>    
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">    
+                      <span aria-hidden="true">×</span>    
+                  </button>    
+              </div>    
+              <div class="modal-body">    
+                  <p> Esta seguro que quiere borrar el turno?</p>    
+              </div>    
+              <div class="modal-footer">    
+                  <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">No</button>    
+                  <button type="button" class="btn btn-outline-dark" (click)="c('yes')">Si</button>    
+              </div>    
+          </ng-template>  
+            <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Requerimientos y protocolos {{ appt.examen.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Requerimientos {{ appt.examen.requirements }}</p> 
+                    <p>Protocolos {{ appt.examen.protocols }}</p> 
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="exampleModalCenter4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Dirección {{ appt.sucursal.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>{{ appt.sucursal.address }}</p> 
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </tr>
         </tbody>
       </table>

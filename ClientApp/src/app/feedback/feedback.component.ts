@@ -39,7 +39,7 @@ export class FeedbackComponent implements OnInit {
         const data = {feedback: this.model.feedback, apptId: this.route.snapshot.params.id};
         this._http.post(this._baseUrl + 'api/SetFeedback', data, this.options).subscribe(
           (response) => {
-            alert('Gracias por sus comentarios');
+            // alert('Gracias por sus comentarios');
             this.router.navigate([]).then((result) => {
               window.open('/', '_self');
             });

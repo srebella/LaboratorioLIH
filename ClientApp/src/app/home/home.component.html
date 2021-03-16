@@ -71,8 +71,8 @@
     </div>
     <div class="form-group row">
       <div class="col-sm-3">
-        <button type="button" class="btn btn-primary" *ngIf="!_isEdit" data-toggle="modal" data-target="#exampleModalCenter">Confirmar</button>
-        <button type="button" class="btn btn-primary" *ngIf="_isEdit" data-toggle="modal" data-target="#exampleModalCenter">Guardar cambios</button>
+        <button type="button" class="btn btn-primary" *ngIf="!_isEdit" data-toggle="modal" data-target="#exampleModalCenter" [disabled]="checkModel()">Confirmar</button>
+        <button type="button" class="btn btn-primary" *ngIf="_isEdit" data-toggle="modal" data-target="#exampleModalCenter" [disabled]="checkModel()">Guardar cambios</button>
       </div>
       
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -114,9 +114,9 @@
       </div>
   
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-          <p>Requerimientos {{examdata.requirements}}</p>
-          <p>Protocolos {{examdata.protocols}}</p>
+        <div [innerHTML]="examdata.requirements"  class="card-body">
+          <!-- <p>Requerimientos {{examdata.requirements}}</p>
+          <p>Protocolos {{examdata.protocols}}</p> -->
         </div>
       </div>
     </div>
@@ -170,7 +170,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let appt of appointments">
+     <tr *ngFor="let appt of appointments">
       <td>{{ appt.examen.name }}</td>
         <td>  <button type="submit" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModalCenter3">Requerimientos</button></td>
       <td>{{ appt.date | date:' dd/MM/yyyy' }}</td>
@@ -226,9 +226,9 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              <p>Requerimientos {{ appt.examen.requirements }}</p> 
-              <p>Protocolos {{ appt.examen.protocols }}</p> 
+            <div [innerHtml]="appt.examen.requirements" class="modal-body">
+              <!-- <p>Requerimientos {{ appt.examen.requirements }}</p> 
+              <p>Protocolos {{ appt.examen.protocols }}</p>  -->
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
