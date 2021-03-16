@@ -166,7 +166,7 @@ export class HomeComponent {
         window.open('/admin', '_self');
       });
     } else {
-      this._show = !this._show;
+      // this._show = !this._show;
       this.router.navigate([]).then((result) => {
         window.open('/turnos', '_self');
       });
