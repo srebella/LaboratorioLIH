@@ -145,6 +145,7 @@ namespace laberegisterLIH.Data
                 var sucursal = _context.Sucursales.Where(u => u.Name == sucursalId).FirstOrDefault();
 
                 //update values
+                time = time.Equals("9") ? "09" : time;
                 var dtStr = date+ " " +time+":00";
                 DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-M-d HH:mm", CultureInfo.InvariantCulture);
                 var appt = new Appointment(){
@@ -208,6 +209,7 @@ namespace laberegisterLIH.Data
                 var appointnment = _context.Appointments.Where(u => u.Id == Int32.Parse(apptid)).FirstOrDefault();
 
                 //update values
+                time = time.Equals("9") ? "09" : time;
                 var dtStr = date+ " " +time+":00";
                 DateTime? dt = DateTime.ParseExact(dtStr, "yyyy-M-d HH:mm", CultureInfo.InvariantCulture);
                 // var appt = new Appointment(){
