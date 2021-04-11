@@ -62,10 +62,10 @@ namespace laberegisterLIH.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "El email es requerido")]
             [EmailAddress(ErrorMessage = "El email no es válido")]
             [Display(Name = "Email")]
-            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
             public string Email { get; set; }
             [Required(ErrorMessage = "La contraseña es requerida")]
-            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos {0} caracteres", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }
